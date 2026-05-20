@@ -6,10 +6,10 @@ import { AuthProvider } from "@/components/AuthProvider";
 import { ToastContainer } from "@/components/Toast";
 
 export const metadata: Metadata = {
-  title: "PaperLabs — Implement Research Papers, One Function at a Time",
+  title: "Axiom - Integrated Learning Platform",
   description:
-    "Practice implementing machine learning paper concepts through micro-tasks with unit tests. Master attention mechanisms, optimizers, normalization layers, and more.",
-  keywords: ["machine learning", "deep learning", "practice", "transformers", "attention", "implementation"],
+    "One PaperLabs-designed platform for college exams, GATE, research paper implementation, placements, and repo-based learning.",
+  keywords: ["education", "college prep", "gate", "placements", "research papers", "implementation"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -28,5 +28,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
-// Entry layout
