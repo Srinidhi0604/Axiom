@@ -1,0 +1,674 @@
+.shell {
+  width: min(100% - 48px, 1580px);
+  margin: 0 auto;
+  padding: 28px 0 64px;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 438px;
+  gap: 14px;
+}
+
+.mainPanel,
+.sidePanel,
+.progressPanel,
+.lockedPanel,
+.plannerPanel,
+.workspacePane,
+.editorPane {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+}
+
+.mainPanel {
+  padding: 26px;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.section:first-child {
+  margin-top: 0;
+}
+
+.sectionTitle {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 22px;
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(170px, 1fr));
+  gap: 32px;
+}
+
+.categoryCard {
+  min-height: 210px;
+  padding: 14px 14px 22px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 48px;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.15s ease;
+}
+
+.categoryCard:hover,
+.trackCard:hover,
+.taskRow:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+.categoryVisual {
+  width: 100%;
+  min-height: 124px;
+  border-radius: 44px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 42px;
+  font-weight: 900;
+}
+
+.peach { background: #d99b82; }
+.mint { background: #8dc9ad; }
+.violet { background: #a59ade; }
+.blue { background: #8db2e4; }
+
+.categoryCard strong {
+  font-size: 20px;
+  text-align: center;
+}
+
+.categoryCard span {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(190px, 1fr));
+  gap: 34px;
+}
+
+.trackCard {
+  min-height: 174px;
+  padding: 20px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 18px;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.trackCard::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 82px;
+  left: 20px;
+  width: 3px;
+  border-radius: 999px;
+  background: #ff7448;
+}
+
+.trackCard.purple::before { background: #a78bfa; }
+.trackCard.green::before { background: #8dc9ad; }
+.trackCard.pink::before { background: #f9a8d4; }
+
+.trackCard strong,
+.trackCard p {
+  margin-left: 18px;
+}
+
+.trackCard strong {
+  font-size: 18px;
+}
+
+.trackCard p {
+  margin-top: 8px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  font-size: 14px;
+}
+
+.buttonRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.buttonRow span,
+.buttonRow a,
+.startButton {
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 116, 72, 0.22);
+  background: rgba(255, 116, 72, 0.22);
+  color: #ff7448;
+  font-weight: 900;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.startButton {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.sidePanel {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progressPanel {
+  min-height: 204px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 18px;
+}
+
+.progressRing {
+  width: 112px;
+  height: 112px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 10px solid rgba(255,255,255,0.04);
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.progressLegend {
+  display: grid;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.lockedPanel,
+.plannerPanel {
+  min-height: 52px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.lockedPanel:hover,
+.plannerPanel:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+.lockedPanel strong,
+.plannerPanel strong {
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.lock {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255,116,72,0.28);
+  color: #ffb08c;
+}
+
+.taskTrack {
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.taskRow {
+  min-height: 128px;
+  padding: 24px 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  transition: all 0.15s ease;
+}
+
+.taskIndex {
+  flex: 0 0 52px;
+  text-align: center;
+}
+
+.taskIndex span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.taskIndex strong {
+  color: var(--text-muted);
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.taskBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.taskBody h3 {
+  font-size: 19px;
+  margin-bottom: 7px;
+}
+
+.taskBody p {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.pill {
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+}
+
+.workspace {
+  height: calc(100vh - 64px);
+  display: grid;
+  grid-template-columns: minmax(420px, 0.75fr) minmax(520px, 1fr);
+}
+
+.workspacePane,
+.editorPane {
+  border-radius: 0;
+  border-top: 0;
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+.problemTopbar,
+.editorTopbar {
+  min-height: 80px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.problemContent {
+  height: calc(100% - 80px);
+  overflow: auto;
+  padding: 44px 36px;
+}
+
+.problemContent h1 {
+  font-size: 28px;
+  margin-bottom: 34px;
+}
+
+.problemContent h2 {
+  font-size: 18px;
+  margin: 32px 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.problemContent p,
+.problemContent li {
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.formula,
+.codeEditor {
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.025);
+  padding: 18px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  color: #f8fafc;
+  white-space: pre-wrap;
+  overflow: auto;
+}
+
+.tabs {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.tab {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.editorBody {
+  height: calc(100% - 80px);
+  background: #1f1f1f;
+  padding: 20px 28px;
+}
+
+.runRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.learnShell {
+  height: calc(100vh - 64px);
+  display: grid;
+  grid-template-columns: 340px minmax(420px, 1fr) minmax(420px, 1fr);
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.lessonSidebar,
+.videoPane,
+.theoryPane {
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lessonSidebar {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lessonLogoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lessonLogo {
+  color: #ff7448;
+  font-size: 26px;
+  font-weight: 900;
+  transform: skew(-10deg);
+}
+
+.basicTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  border: 1px solid rgba(255, 116, 72, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.basicTabs span {
+  padding: 12px 10px;
+  color: var(--text-muted);
+  font-weight: 800;
+  border-right: 1px solid var(--glass-border);
+}
+
+.basicTabs span:first-child {
+  color: var(--text-primary);
+}
+
+.basicTabs strong {
+  padding: 0 12px;
+  color: var(--text-secondary);
+}
+
+.lessonList {
+  min-height: 0;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.lessonGroup {
+  border-bottom: 1px solid var(--glass-border);
+  padding: 16px 0;
+}
+
+.lessonGroupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-primary);
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.lessonItem {
+  display: grid;
+  grid-template-columns: 1fr 24px;
+  gap: 12px;
+  padding: 11px 0 11px 30px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.lessonItemActive {
+  color: var(--text-primary);
+  border-left: 2px solid #ff7448;
+  padding-left: 28px;
+}
+
+.bottomDock {
+  display: grid;
+  grid-template-columns: 42px 1fr 42px 42px;
+  gap: 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 8px;
+  background: #111;
+}
+
+.bottomDock span {
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-weight: 900;
+}
+
+.bottomDock span:nth-child(2) {
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+.roadmapBanner {
+  min-height: 52px;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-primary);
+  font-weight: 900;
+}
+
+.roadmapBanner a {
+  color: #ff7448;
+  text-decoration: none;
+}
+
+.videoPane {
+  display: grid;
+  grid-template-rows: 52px 1fr 40px;
+}
+
+.paneTitle {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--glass-border);
+  font-weight: 900;
+}
+
+.videoBox {
+  margin: auto;
+  width: min(92%, 760px);
+  aspect-ratio: 16 / 9;
+  border: 10px solid #262626;
+  border-radius: 12px;
+  background: #0d0d0d;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  font-weight: 900;
+}
+
+.draggableHint {
+  margin: 0 auto 14px;
+  width: fit-content;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
+  font-size: 13px;
+}
+
+.theoryPane {
+  border-right: 0;
+  overflow: auto;
+  padding: 16px 20px 40px;
+}
+
+.theoryTabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.theoryTabs div {
+  display: flex;
+  gap: 8px;
+}
+
+.theoryTabs span {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-muted);
+  font-weight: 900;
+}
+
+.theoryTabs span:first-child {
+  color: #ff7448;
+  background: rgba(255,116,72,0.12);
+}
+
+.studyToggle {
+  color: var(--text-secondary);
+  font-weight: 800;
+}
+
+.lockedTheory {
+  min-height: 380px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  color: #ff7448;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.theoryArticle {
+  margin-top: 26px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.theoryArticle h2 {
+  color: var(--text-primary);
+  font-size: 26px;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard,
+  .workspace,
+  .learnShell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidePanel {
+    display: none;
+  }
+
+  .categoryGrid,
+  .cardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .shell {
+    width: min(100% - 24px, 1580px);
+  }
+
+  .categoryGrid,
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .categoryCard {
+    border-radius: 28px;
+  }
+
+  .taskRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
