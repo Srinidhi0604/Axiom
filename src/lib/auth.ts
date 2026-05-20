@@ -2,13 +2,13 @@
  * Authentication and JWT utilities
  */
 
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload, type SignOptions } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 /**
  * Create JWT token
  */
-export function createToken(payload: object, expiresIn: string = "7d"): string {
+export function createToken(payload: object, expiresIn: SignOptions["expiresIn"] = "7d"): string {
   const secret = process.env.JWT_SECRET;
   if (!secret) throw new Error("JWT_SECRET not configured");
   return jwt.sign(payload, secret, { expiresIn });
