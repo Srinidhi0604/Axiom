@@ -5,10 +5,18 @@ import { usePathname } from "next/navigation";
 
 export function Footer() {
   const pathname = usePathname();
-  
-  // Only show footer on main navigation pages
-  const allowedPaths = ["/", "/papers", "/fundamentals", "/advanced-tracks", "/leaderboard", "/pricing"];
+  const allowedPaths = ["/", "/college", "/gate", "/papers", "/placement", "/vibe", "/leaderboard"];
+
   if (!allowedPaths.includes(pathname)) return null;
+
+  const links = [
+    { href: "/college", label: "College" },
+    { href: "/gate", label: "GATE" },
+    { href: "/papers", label: "Papers" },
+    { href: "/placement", label: "PlacePrep" },
+    { href: "/vibe", label: "Vibe Lab" },
+    { href: "/leaderboard", label: "Leaderboard" },
+  ];
 
   return (
     <footer
@@ -31,25 +39,17 @@ export function Footer() {
           gap: 20,
         }}
       >
-        {/* Logo area */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontWeight: 600, fontSize: 16, color: "var(--text-muted)", letterSpacing: "-0.05em" }}>
             &gt;_
           </span>
           <span style={{ fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em" }}>
-            PaperLabs
+            Axiom
           </span>
         </div>
 
-        {/* Links */}
         <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-          {[
-            { href: "/papers", label: "Papers" },
-            { href: "/fundamentals", label: "Fundamentals" },
-            { href: "/advanced-tracks", label: "Tracks" },
-            { href: "/leaderboard", label: "Leaderboard" },
-            { href: "/pricing", label: "Pricing" },
-          ].map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -57,19 +57,18 @@ export function Footer() {
                 color: "var(--text-muted)",
                 textDecoration: "none",
                 fontSize: 13,
-                transition: "color 0.2s ease",
+                transition: "color 0.15s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+              onMouseEnter={(event) => (event.currentTarget.style.color = "var(--text-primary)")}
+              onMouseLeave={(event) => (event.currentTarget.style.color = "var(--text-muted)")}
             >
               {link.label}
             </Link>
           ))}
         </div>
 
-        {/* Copyright */}
         <p style={{ color: "#666", fontSize: 12, margin: 0 }}>
-          © {new Date().getFullYear()} PaperLabs.
+          (c) {new Date().getFullYear()} Axiom.
         </p>
       </div>
     </footer>
