@@ -6,12 +6,12 @@ import { useState } from "react";
 import { useAuth } from "./AuthProvider";
 
 const navLinks = [
-  { href: "/college", label: "College" },
-  { href: "/gate", label: "GATE" },
   { href: "/papers", label: "Papers" },
+  { href: "/fundamentals", label: "Fundamentals" },
+  { href: "/tracks", label: "Tracks" },
   { href: "/placement", label: "PlacePrep" },
-  { href: "/vibe", label: "Vibe Lab" },
   { href: "/leaderboard", label: "Leaderboard" },
+  { href: "/pricing", label: "Pricing" },
 ];
 
 export function Navbar() {
@@ -59,7 +59,7 @@ export function Navbar() {
             &gt;_
           </span>
           <span style={{ fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em" }}>
-            Axiom
+            PaperLabs
           </span>
         </Link>
 
@@ -73,7 +73,7 @@ export function Navbar() {
           className="nav-links-desktop"
         >
           {navLinks.map((link) => {
-            const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+            const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}

@@ -1,24 +1,14 @@
-import Link from "next/link";
-import { dsaPlaylists, dsaSheets } from "@/data/placement";
-import styles from "../placement.module.css";
+import { Suspense } from "react";
+import { PlacementProblemBrowser, TopicCards } from "@/components/placement/PlacementClient";
+import styles from "@/components/placement/placement.module.css";
 
-export default function DsaPage() {
+export default function Page() {
   return (
-    <main className={styles.shell}>
-      <section className={styles.mainPanel}>
-        <h1 className={styles.sectionTitle}>DSA Sheet</h1>
-        <div className={styles.cardGrid}>
-          {[...dsaSheets, ...dsaPlaylists].map((item) => (
-            <Link key={item.title} href={item.href} className={styles.trackCard}>
-              <div>
-                <strong>{item.title}</strong>
-                <p>{item.description}</p>
-              </div>
-              <span className={styles.startButton}>Start Learning</span>
-            </Link>
-          ))}
-        </div>
+    <Suspense fallback={<main className={styles.shell}>Loading DSA sheet...</main>}>
+      <PlacementProblemBrowser mode="dsa" />
+      <section className={styles.shell} style={{ paddingTop: 0 }}>
+        <TopicCards />
       </section>
-    </main>
+    </Suspense>
   );
 }
