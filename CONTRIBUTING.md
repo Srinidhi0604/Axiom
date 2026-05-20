@@ -1,98 +1,159 @@
-# Contributing to PaperLabs
+# Contributing to Axiom
 
-## Development Setup
+Axiom is the integrated version of PaperLabs. It keeps the PaperLabs dark, implementation-first design system and combines five education verticals into one Next.js app.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Srinidhi0604/PaperLabs.git
-   cd PaperLabs
-   ```
+## Product Shape
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+Axiom has five core verticals:
 
-3. Set up environment variables:
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your configuration
-   ```
+1. **College Exam Prep** at `/college`
+   - Source reference: `sanikapatil22/clgprep`
+   - Flow to preserve: semester -> department -> course -> module -> topic workspace.
+   - Current Axiom routes:
+     - `/college`
+     - `/college/semesters/[semester]`
+     - `/college/semesters/[semester]/departments/[department]`
+     - `/college/departments/[department]`
+     - `/college/courses/[course]`
+     - `/college/courses/[course]/[module]`
+     - `/college/courses/[course]/[module]/[topic]`
+   - Data lives in `src/data/college-course-catalog.json`.
+   - Helpers live in `src/lib/college.ts`.
 
-4. Run development server:
-   ```bash
-   npm run dev
-   ```
+2. **GATE & Competitive** at `/gate`
+   - Source reference: `ashutoshbhatt2609/gate`, inside `PaperLabs/src/app/gate`.
+   - Preserve the original GATE command-center feature set:
+     - Dashboard
+     - PYQ bank
+     - Mock tests
+     - Formula sheets
+     - Rank predictor
+     - Analytics
+     - Practice mode
+     - Syllabus
+     - AI explainer shell
+   - Components live in `src/components/gate`.
+   - Data lives in `src/data/gate.ts`.
 
-## Project Structure
+3. **PaperLabs** at `/papers`
+   - This is the original ML/research-paper implementation vertical.
+   - Keep its paper detail page, reader, and coding terminal behavior intact.
+   - Data lives in `src/data/papers.ts`.
+   - Core terminal component is `src/components/CodingTerminal.tsx`.
 
-- `src/app/` - Next.js app router pages and API routes
-- `src/components/` - React components
-- `src/lib/` - Utility functions, types, and helpers
-- `src/data/` - Static data and content
-- `src/models/` - MongoDB models
+4. **PlacePrep** at `/placement`
+   - Placement vertical for DSA, company questions, system design, LLD, SQL, aptitude, and roadmap.
+   - Company data mirrors CodeJeet:
+     - CSVs in `data/companies`
+     - Build script `scripts/build-placement-data.js`
+     - Generated static JSON in `public/data/placement`
+   - Run `npm run build:placement-data` when company CSVs change.
+   - Main data file is `src/data/placement.ts`.
 
-## Key Utilities
+5. **Vibe Lab** at `/vibe`
+   - Source reference: `Ansukr07/paperlabs-5`.
+   - Preserve the original mode model:
+     - Repo Scan
+     - Principles Map
+     - Repo Tasks
+     - Attack Lab
+     - Scale Plan
+     - CEO Simulator
+   - Current Axiom routes:
+     - `/vibe`
+     - `/vibe/map`
+     - `/vibe/tasks/[track]`
+     - `/vibe/tasks/[track]/[task]`
+     - `/vibe/security`
+     - `/vibe/scale`
+     - `/vibe/ceo`
+   - Data lives in `src/data/vibe.ts`.
 
-### Types (`src/lib/types.ts`)
-Shared TypeScript interfaces for User, Paper, Problem, Submission, etc.
+## Design Rules
 
-### Validation (`src/lib/validation.ts`)
-Input validation functions (email, username, password, etc.)
+Do not redesign Axiom away from PaperLabs.
 
-### API Response (`src/lib/api-response.ts`)
-Standardized API response builders and error handlers.
+- Background: black / near-black.
+- Text: white primary, muted gray secondary.
+- Cards: `#1a1a1a` background, `1px solid #2a2a2a`, `8px` radius.
+- Hover border: `rgba(6, 182, 212, 0.4)`.
+- Accents:
+  - Cyan `#06B6D4`
+  - Purple `#8B5CF6` or existing PaperLabs purple
+  - Green `#10B981`
+  - Red `#EF4444`
+- No Tailwind-only redesigns, no shadcn migration, no marketing-style replacement UI.
+- The root landing page should remain the PaperLabs landing structure:
+  - hero
+  - network graphic
+  - scroll/terminal research section
+  - vertical cards
+  - feature cards
+- Use CSS modules or vanilla/global CSS consistent with the existing codebase.
 
-### Constants (`src/lib/constants.ts`)
-Application-wide configuration constants.
+## Development
 
-### Logger (`src/lib/logger.ts`)
-Consistent logging utility for debugging and monitoring.
+Install dependencies:
 
-### Utils (`src/lib/utils.ts`)
-Common helper functions (date formatting, debouncing, etc.)
+```bash
+npm install
+```
 
-## API Routes
+Run dev server:
 
-### Authentication
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/signin` - User login
-- `POST /api/auth/callback` - OAuth callback
+```bash
+npm run dev -- --hostname 127.0.0.1 --port 3000
+```
 
-### Users
-- `GET /api/users/[username]` - Get user profile
-- `GET /api/users` - Get all users
+Build:
 
-### Papers & Problems
-- `GET /api/reviews` - Get paper reviews
-- `POST /api/submit` - Submit problem solution
+```bash
+npm run build
+```
 
-## Code Style
+Build placement static data only:
 
-- Use TypeScript for type safety
-- Follow existing naming conventions
-- Add JSDoc comments to functions
-- Use the provided utility functions
-- Keep functions small and focused
+```bash
+npm run build:placement-data
+```
 
-## Testing
+## Architecture Notes
 
-Before committing:
-1. Test your changes locally
-2. Run `npm run lint` to check for issues
-3. Verify no console errors in development
+- Next.js App Router is used throughout `src/app`.
+- React 19 and TypeScript strict mode are enabled.
+- Auth is PaperLabs-style JWT auth; do not create a separate auth system for a vertical.
+- Static vertical content should be read from `src/data` or generated into `public/data`.
+- Company question data must stay static and client/server-readable from generated JSON. Do not add API routes for company question browsing.
+- Persisted user state, when needed, should use existing MongoDB/JWT auth patterns.
 
-## Commit Message Format
+## Agent Workflow
 
-Use conventional commits:
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation
-- `refactor:` Code refactoring
-- `chore:` Maintenance tasks
+When another agent works on this repo:
 
-Example: `feat: add user authentication`
+1. Read this file first.
+2. Inspect the existing route/component before changing it.
+3. Preserve user-visible flows from the source vertical repos.
+4. Keep Axiom as one integrated app, not five unrelated apps embedded together.
+5. Run `npm run build` before handing back frontend or routing changes.
+6. If touching PlacePrep company data, run `npm run build:placement-data`.
+7. Avoid removing existing user changes. The worktree may be dirty.
 
-## Questions?
+## Important Files
 
-Open an issue or reach out to the maintainers.
+- `src/app/page.tsx` - Axiom landing page using PaperLabs landing structure.
+- `src/components/Navbar.tsx` - unified Axiom nav.
+- `src/components/Footer.tsx` - unified Axiom footer.
+- `src/app/globals.css` - global design tokens and shared vertical shell CSS.
+- `src/app/axiom.module.css` - shared Axiom vertical page styles.
+- `src/lib/college.ts` - college catalog helpers and slug routing.
+- `scripts/build-placement-data.js` - CodeJeet-style company data prebuild.
+
+## Definition of Done
+
+A change is done when:
+
+- The route works directly in the browser.
+- All visible buttons either navigate correctly or perform a real local interaction.
+- The page matches the PaperLabs visual system.
+- The source vertical's core flow is not lost.
+- `npm run build` passes.
