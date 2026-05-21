@@ -20,16 +20,32 @@ function makeReferralCode(username: string, idOrEmail: string) {
 
 function decodeSupabaseAccessToken(accessToken: string): { id: string } | null {
   try {
-    const [, payload] = accessToken.split(".");
-    if (!payload) return null;
+    // Clean the token first
+    const cleanToken = (accessToken || "").trim();
+    if (!cleanToken || cleanToken.split(".").length !== 3) {
+      console.error("Invalid token format - expected 3 parts, got:", cleanToken.split(".").length);
+      return null;
+    }
+
+    const [, payload] = cleanToken.split(".");
+    if (!payload) {
+      console.error("No payload found in token");
+      return null;
+    }
 
     const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
     const decoded = JSON.parse(Buffer.from(normalized, "base64").toString("utf8"));
     const id = typeof decoded.sub === "string" ? decoded.sub : "";
 
-    if (!id) return null;
+    if (!id) {
+      console.error("No 'sub' claim found in token payload");
+      return null;
+    }
+    
+    console.log("Successfully decoded Supabase token, sub:", id);
     return { id };
-  } catch {
+  } catch (error) {
+    console.error("Failed to decode Supabase token:", error instanceof Error ? error.message : String(error));
     return null;
   }
 }
@@ -47,6 +63,7 @@ export async function GET(request: Request) {
     }
 
     if (!token) {
+      console.error("No token found in cookies or headers");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -57,16 +74,22 @@ export async function GET(request: Request) {
       const decoded = verifyToken(token) as any;
       if (decoded?.id) {
         userId = decoded.id;
+        console.log("Decoded as JWT, userId:", userId);
       }
-    } catch {
+    } catch (jwtError) {
+      console.log("JWT decode failed, trying Supabase token:", jwtError instanceof Error ? jwtError.message : String(jwtError));
       // Not a JWT, try Supabase token
       const supabaseDecoded = decodeSupabaseAccessToken(token);
       if (supabaseDecoded?.id) {
         userId = supabaseDecoded.id;
+        console.log("Decoded as Supabase token, userId:", userId);
+      } else {
+        console.error("Failed to decode as Supabase token");
       }
     }
 
     if (!userId) {
+      console.error("Could not extract userId from token");
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 

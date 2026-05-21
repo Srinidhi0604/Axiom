@@ -49,13 +49,16 @@ export default function ReferralsPage() {
 
         // Get token from localStorage as fallback
         const token = localStorage.getItem("axiom_token") || localStorage.getItem("pullgame_token");
+        console.log("Token from localStorage:", token ? `${token.slice(0, 20)}...` : "NOT FOUND");
 
         // Fetch user's referral stats
         const statsRes = await fetch("/api/referrals/stats", {
           credentials: "include",
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
+        console.log("Stats response status:", statsRes.status);
         const statsData = await statsRes.json();
+        console.log("Stats response data:", statsData);
 
         if (statsData.success) {
           setStats(statsData.referralStats);
