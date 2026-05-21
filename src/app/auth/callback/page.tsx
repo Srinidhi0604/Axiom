@@ -81,7 +81,9 @@ export default function AuthCallbackPage() {
         return;
       }
 
-      const syncResponse = await fetch("/api/auth/sync", {
+      persistAppAuth(userFromSupabaseSession(data.session), accessToken);
+
+      fetch("/api/auth/sync", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,18 +91,15 @@ export default function AuthCallbackPage() {
         },
         credentials: "include",
         body: JSON.stringify({ accessToken }),
-      });
-
-      if (!syncResponse.ok) {
-        persistAppAuth(userFromSupabaseSession(data.session), accessToken);
-        router.replace("/");
-        return;
-      }
-
-      const synced = await syncResponse.json();
-      if (synced?.user && synced?.token) {
-        persistAppAuth(synced.user, synced.token);
-      }
+      })
+        .then(async (syncResponse) => {
+          if (!syncResponse.ok) return;
+          const synced = await syncResponse.json();
+          if (synced?.user && synced?.token) {
+            persistAppAuth(synced.user, synced.token);
+          }
+        })
+        .catch(() => {});
 
       if (!cancelled) {
         router.replace("/");
