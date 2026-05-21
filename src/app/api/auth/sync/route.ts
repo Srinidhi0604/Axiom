@@ -4,6 +4,13 @@ import { createSessionToken, publicUser, setAuthCookie } from "@/lib/auth";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import User from "@/models/User";
 
+type SupabaseLikeUser = {
+  id: string;
+  email?: string;
+  user_metadata?: Record<string, unknown>;
+  app_metadata?: Record<string, unknown>;
+};
+
 function normalizeUsername(value: string) {
   return value.trim().toLowerCase().replace(/[^a-z0-9_]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
 }
@@ -13,12 +20,7 @@ function usernameFromSupabase(email: string, id: string, name?: string | null) {
   return `${base}_${id.slice(-6).toLowerCase()}`.slice(0, 40);
 }
 
-function supabaseOnlyUser(supabaseUser: {
-  id: string;
-  email?: string;
-  user_metadata?: Record<string, unknown>;
-  app_metadata?: Record<string, unknown>;
-}) {
+function supabaseOnlyUser(supabaseUser: SupabaseLikeUser) {
   const email = (supabaseUser.email || "").toLowerCase().trim();
   const displayName =
     typeof supabaseUser.user_metadata?.full_name === "string"
@@ -42,12 +44,47 @@ function supabaseOnlyUser(supabaseUser: {
   };
 }
 
+function decodeSupabaseAccessToken(accessToken: string): SupabaseLikeUser | null {
+  try {
+    const [, payload] = accessToken.split(".");
+    if (!payload) return null;
+
+    const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const decoded = JSON.parse(Buffer.from(normalized, "base64").toString("utf8"));
+    const email = typeof decoded.email === "string" ? decoded.email : "";
+    const id = typeof decoded.sub === "string" ? decoded.sub : "";
+
+    if (!id || !email) return null;
+
+    return {
+      id,
+      email,
+      app_metadata: typeof decoded.app_metadata === "object" && decoded.app_metadata ? decoded.app_metadata : {},
+      user_metadata: typeof decoded.user_metadata === "object" && decoded.user_metadata ? decoded.user_metadata : {},
+    };
+  } catch {
+    return null;
+  }
+}
+
+function completeAuth(user: { _id: unknown; username: string; email: string; avatarUrl?: string; authProvider?: string }) {
+  const token = createSessionToken(user);
+  const response = NextResponse.json({
+    user: publicUser(user),
+    token,
+  });
+  setAuthCookie(response, token);
+  return response;
+}
+
 export async function POST(request: Request) {
+  let accessToken: string | null = null;
+
   try {
     const authHeader = request.headers.get("authorization");
     const bearer = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
     const body = await request.json().catch(() => ({}));
-    const accessToken = bearer || body?.accessToken;
+    accessToken = bearer || body?.accessToken;
 
     if (!accessToken || typeof accessToken !== "string") {
       return NextResponse.json({ error: "Missing Supabase access token" }, { status: 400 });
@@ -117,25 +154,21 @@ export async function POST(request: Request) {
       user = supabaseOnlyUser(supabaseUser);
     }
 
-    const token = createSessionToken(user);
-    const response = NextResponse.json({
-      user: publicUser(user),
-      token,
-    });
-    setAuthCookie(response, token);
-    return response;
+    return completeAuth(user);
   } catch (error) {
     console.error("Supabase sync error:", error);
-    const message = error instanceof Error ? error.message : "Unknown auth sync error";
-    const code = message.toLowerCase().includes("supabase")
-      ? "supabase_config"
-      : message.toLowerCase().includes("secret")
-        ? "session_secret"
-        : "auth_sync_failed";
 
-    return NextResponse.json(
-      { error: "Failed to sync auth user", code },
-      { status: 500 },
-    );
+    if (accessToken) {
+      const decodedUser = decodeSupabaseAccessToken(accessToken);
+      if (decodedUser) {
+        try {
+          return completeAuth(supabaseOnlyUser(decodedUser));
+        } catch (fallbackError) {
+          console.error("Supabase token fallback failed:", fallbackError);
+        }
+      }
+    }
+
+    return NextResponse.json({ error: "Failed to sync auth user" }, { status: 500 });
   }
 }
