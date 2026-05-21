@@ -68,9 +68,12 @@ export const AUTH_COOKIE = "axiom_token";
 export const AUTH_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
 
 export function getJwtSecret() {
-  const secret = process.env.JWT_SECRET;
+  const secret =
+    process.env.JWT_SECRET ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!secret || secret.length < 32) {
-    throw new Error("JWT_SECRET must be configured and at least 32 characters for production");
+    throw new Error("Axiom session signing secret is not configured");
   }
   return secret;
 }
