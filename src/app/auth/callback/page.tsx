@@ -11,6 +11,39 @@ function persistAppAuth(user: unknown, token: string) {
   localStorage.setItem("pullgame_token", token);
 }
 
+function userFromSupabaseSession(session: {
+  access_token: string;
+  user: {
+    id: string;
+    email?: string;
+    user_metadata?: Record<string, unknown>;
+    app_metadata?: Record<string, unknown>;
+  };
+}) {
+  const email = session.user.email || "";
+  const name =
+    typeof session.user.user_metadata?.full_name === "string"
+      ? session.user.user_metadata.full_name
+      : typeof session.user.user_metadata?.name === "string"
+        ? session.user.user_metadata.name
+        : email.split("@")[0] || "axiom_user";
+  const username = `${String(name).toLowerCase().replace(/[^a-z0-9_]+/g, "_").replace(/^_+|_+$/g, "")}_${session.user.id.slice(-6)}`;
+  const avatarUrl =
+    typeof session.user.user_metadata?.avatar_url === "string"
+      ? session.user.user_metadata.avatar_url
+      : typeof session.user.user_metadata?.picture === "string"
+        ? session.user.user_metadata.picture
+        : "";
+
+  return {
+    id: session.user.id,
+    username,
+    email,
+    avatarUrl,
+    authProvider: session.user.app_metadata?.provider === "google" ? "google" : "supabase",
+  };
+}
+
 export default function AuthCallbackPage() {
   const router = useRouter();
 
@@ -43,12 +76,14 @@ export default function AuthCallbackPage() {
 
       const accessToken = data.session?.access_token;
 
-      if (!accessToken) {
+      if (!accessToken || !data.session) {
         router.replace("/auth/login?error=oauth_failed");
         return;
       }
 
-      const syncResponse = await fetch("/api/auth/sync", {
+      persistAppAuth(userFromSupabaseSession(data.session), accessToken);
+
+      fetch("/api/auth/sync", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,19 +91,15 @@ export default function AuthCallbackPage() {
         },
         credentials: "include",
         body: JSON.stringify({ accessToken }),
-      });
-
-      if (!syncResponse.ok) {
-        const errorData = await syncResponse.json().catch(() => ({}));
-        const message = errorData?.details || errorData?.error || "oauth_failed";
-        router.replace(`/auth/login?error=${encodeURIComponent(message)}`);
-        return;
-      }
-
-      const synced = await syncResponse.json();
-      if (synced?.user && synced?.token) {
-        persistAppAuth(synced.user, synced.token);
-      }
+      })
+        .then(async (syncResponse) => {
+          if (!syncResponse.ok) return;
+          const synced = await syncResponse.json();
+          if (synced?.user && synced?.token) {
+            persistAppAuth(synced.user, synced.token);
+          }
+        })
+        .catch(() => {});
 
       if (!cancelled) {
         router.replace("/");

@@ -36,6 +36,39 @@ function clearAppAuth() {
   localStorage.removeItem("pullgame_token");
 }
 
+function userFromSupabaseSession(session: {
+  access_token: string;
+  user: {
+    id: string;
+    email?: string;
+    user_metadata?: Record<string, unknown>;
+    app_metadata?: Record<string, unknown>;
+  };
+}): AuthUser {
+  const email = session.user.email || "";
+  const name =
+    typeof session.user.user_metadata?.full_name === "string"
+      ? session.user.user_metadata.full_name
+      : typeof session.user.user_metadata?.name === "string"
+        ? session.user.user_metadata.name
+        : email.split("@")[0] || "axiom_user";
+  const username = `${String(name).toLowerCase().replace(/[^a-z0-9_]+/g, "_").replace(/^_+|_+$/g, "")}_${session.user.id.slice(-6)}`;
+  const avatarUrl =
+    typeof session.user.user_metadata?.avatar_url === "string"
+      ? session.user.user_metadata.avatar_url
+      : typeof session.user.user_metadata?.picture === "string"
+        ? session.user.user_metadata.picture
+        : "";
+
+  return {
+    id: session.user.id,
+    username,
+    email,
+    avatarUrl,
+    authProvider: session.user.app_metadata?.provider === "google" ? "google" : "supabase",
+  };
+}
+
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used within AuthProvider");
@@ -81,9 +114,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const hydrateFromSession = async () => {
         const { data } = await supabase.auth.getSession();
-        const accessToken = data.session?.access_token;
+        const session = data.session;
+        const accessToken = session?.access_token;
 
-        if (!accessToken) {
+        if (!accessToken || !session) {
           clearAppAuth();
           if (active) {
             setUser(null);
@@ -103,9 +137,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
 
         if (!response.ok) {
-          clearAppAuth();
+          const supabaseUser = userFromSupabaseSession(session);
+          persistAppAuth(supabaseUser, accessToken);
           if (active) {
-            setUser(null);
+            setUser(supabaseUser);
             setIsLoading(false);
           }
           return;
@@ -143,7 +178,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           body: JSON.stringify({ accessToken }),
         });
 
-        if (!response.ok) return;
+        if (!response.ok) {
+          const supabaseUser = userFromSupabaseSession(session);
+          setUser(supabaseUser);
+          persistAppAuth(supabaseUser, accessToken);
+          return;
+        }
 
         const synced = await response.json();
         setUser(synced.user);
@@ -162,27 +202,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) return false;
-
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error || !data.session?.access_token) return false;
-
-      const response = await fetch("/api/auth/sync", {
+      const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${data.session.access_token}`,
         },
         credentials: "include",
-        body: JSON.stringify({ accessToken: data.session.access_token }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) return false;
-      const synced = await response.json();
-      setUser(synced.user);
-      persistAppAuth(synced.user, synced.token);
+      const data = await response.json();
+      setUser(data.user);
+      persistAppAuth(data.user, data.token);
       return true;
     } catch (error) {
       console.error("Login error:", error);
@@ -191,41 +224,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signup = async (username: string, email: string, password: string): Promise<boolean> => {
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) return false;
-
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username,
-            full_name: username,
-          },
-        },
-      });
-
-      if (error) return false;
-      const accessToken = data.session?.access_token;
-      if (!accessToken) {
-        return true;
-      }
-
-      const response = await fetch("/api/auth/sync", {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
         },
         credentials: "include",
-        body: JSON.stringify({ accessToken }),
+        body: JSON.stringify({ username, email, password }),
       });
 
       if (!response.ok) return false;
-      const synced = await response.json();
-      setUser(synced.user);
-      persistAppAuth(synced.user, synced.token);
+
+      const data = await response.json();
+      setUser(data.user);
+      persistAppAuth(data.user, data.token);
+
+      const supabase = getSupabaseBrowserClient();
+      if (supabase) {
+        supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              username,
+              full_name: username,
+            },
+          },
+        }).catch(() => {});
+      }
+
       return true;
     } catch (error) {
       console.error("Signup error:", error);

@@ -77,3 +77,22 @@ Database requirements:
 5. Deploy to Vercel from GitHub.
 6. Test sign up, log in, Google auth, placement progress save, notes save, and one page from each vertical.
 7. Watch Vercel function logs and Atlas metrics during the first user batch.
+## Vibe Lab Repo Scanner
+
+The Vibe Lab repo scanner is serverless inside this Next.js app. Do not deploy the old Vibe Lab `PORT=5000` Express service or set `CLIENT_ORIGIN` for production. The frontend calls the relative Vercel route:
+
+```txt
+POST /api/vibe/scan
+```
+
+Optional production env vars:
+
+```txt
+OPENAI_API_KEY=...
+OPENAI_MODEL=gpt-4.1-mini
+OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_MAX_TOKENS=4000
+GITHUB_TOKEN=...
+```
+
+`GITHUB_TOKEN` is optional but recommended to raise GitHub API rate limits. Without `OPENAI_API_KEY`, the scanner still works and generates deterministic repo tasks from GitHub metadata.

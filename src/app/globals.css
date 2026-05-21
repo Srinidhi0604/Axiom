@@ -2288,3 +2288,28 @@ main {
     margin-bottom: 20px;
   }
 }
+
+@media (max-width: 640px) {
+  .gate-formula-subject-tabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .gate-formula-subject-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gate-formula-subject-tabs button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+}
