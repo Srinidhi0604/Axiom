@@ -47,7 +47,24 @@ export default function ReferralsPage() {
       try {
         setLoading(true);
 
-        // Fetch leaderboard
+        // Get token from localStorage as fallback
+        const token = localStorage.getItem("axiom_token") || localStorage.getItem("pullgame_token");
+
+        // Fetch user's referral stats
+        const statsRes = await fetch("/api/referrals/stats", {
+          credentials: "include",
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        const statsData = await statsRes.json();
+
+        if (statsData.success) {
+          setStats(statsData.referralStats);
+          setReferredUsers(statsData.referredUsers);
+        } else if (statsRes.status === 401) {
+          showToast("Please log in to view referral stats", "error");
+        }
+
+        // Fetch leaderboard (public endpoint)
         const leaderboardRes = await fetch("/api/referrals/leaderboard?limit=100", {
           credentials: "include",
         });
@@ -63,17 +80,6 @@ export default function ReferralsPage() {
           if (rank) {
             setUserRank(rank.rank);
           }
-        }
-
-        // Fetch user's referral stats
-        const statsRes = await fetch("/api/referrals/stats", {
-          credentials: "include",
-        });
-        const statsData = await statsRes.json();
-
-        if (statsData.success) {
-          setStats(statsData.referralStats);
-          setReferredUsers(statsData.referredUsers);
         }
       } catch (error) {
         console.error("Failed to fetch referral data:", error);
@@ -104,9 +110,12 @@ export default function ReferralsPage() {
   const generateReferralCode = async () => {
     try {
       setGenerating(true);
+      const token = localStorage.getItem("axiom_token") || localStorage.getItem("pullgame_token");
+
       const response = await fetch("/api/migrate/referral-codes", {
         method: "POST",
         credentials: "include",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
 
       if (!response.ok) {
@@ -120,6 +129,7 @@ export default function ReferralsPage() {
       // Refresh stats to get the new code
       const statsRes = await fetch("/api/referrals/stats", {
         credentials: "include",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       const statsData = await statsRes.json();
 

@@ -25,7 +25,16 @@ function makeReferralCode(username: string, idOrEmail: string) {
 export async function POST(request: Request) {
   try {
     // Verify authentication (admin-level operation)
-    const token = await getTokenFromCookies();
+    let token = await getTokenFromCookies();
+
+    // Fallback: check Authorization header
+    if (!token) {
+      const authHeader = request.headers.get("authorization");
+      if (authHeader?.startsWith("Bearer ")) {
+        token = authHeader.slice(7);
+      }
+    }
+
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
