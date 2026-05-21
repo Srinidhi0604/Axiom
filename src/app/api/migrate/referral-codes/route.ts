@@ -56,19 +56,39 @@ function decodeSupabaseAccessToken(accessToken: string): { id: string } | null {
  */
 export async function POST(request: Request) {
   try {
-    // Verify authentication (admin-level operation)
-    let token = await getTokenFromCookies();
+    let token: string | null = null;
 
-    // Fallback: check Authorization header
+    // Try multiple auth methods
+    // 1. Authorization header
+    const authHeader = request.headers.get("authorization");
+    if (authHeader?.startsWith("Bearer ")) {
+      token = authHeader.slice(7);
+      console.log("POST: Token from Authorization header");
+    }
+
+    // 2. Request body
     if (!token) {
-      const authHeader = request.headers.get("authorization");
-      if (authHeader?.startsWith("Bearer ")) {
-        token = authHeader.slice(7);
+      try {
+        const body = await request.json().catch(() => ({}));
+        if (body.token) {
+          token = body.token;
+          console.log("POST: Token from request body");
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    // 3. Cookies
+    if (!token) {
+      token = await getTokenFromCookies();
+      if (token) {
+        console.log("POST: Token from cookies");
       }
     }
 
     if (!token) {
-      console.error("No token found in cookies or headers for POST");
+      console.error("POST: No token found anywhere");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -82,14 +102,12 @@ export async function POST(request: Request) {
         console.log("POST: Decoded as JWT, userId:", userId);
       }
     } catch (jwtError) {
-      console.log("POST: JWT decode failed, trying Supabase token:", jwtError instanceof Error ? jwtError.message : String(jwtError));
+      console.log("POST: JWT decode failed, trying Supabase token");
       // Not a JWT, try Supabase token
       const supabaseDecoded = decodeSupabaseAccessToken(token);
       if (supabaseDecoded?.id) {
         userId = supabaseDecoded.id;
         console.log("POST: Decoded as Supabase token, userId:", userId);
-      } else {
-        console.error("POST: Failed to decode as Supabase token");
       }
     }
 

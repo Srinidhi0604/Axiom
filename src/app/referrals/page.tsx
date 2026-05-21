@@ -115,24 +115,40 @@ export default function ReferralsPage() {
       setGenerating(true);
       const token = localStorage.getItem("axiom_token") || localStorage.getItem("pullgame_token");
 
+      if (!token) {
+        showToast("Please log in to generate a referral code", "error");
+        setGenerating(false);
+        return;
+      }
+
+      // Try multiple auth methods
       const response = await fetch("/api/migrate/referral-codes", {
         method: "POST",
         credentials: "include",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ token }),
       });
 
       if (!response.ok) {
-        showToast("Failed to generate referral code", "error");
+        const errorData = await response.json();
+        console.error("Generate error:", response.status, errorData);
+        showToast(`Failed to generate referral code: ${response.status}`, "error");
         return;
       }
 
       const data = await response.json();
+      console.log("Generate response:", data);
       showToast("Referral ID generated successfully!", "success");
 
       // Refresh stats to get the new code
       const statsRes = await fetch("/api/referrals/stats", {
         credentials: "include",
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const statsData = await statsRes.json();
 

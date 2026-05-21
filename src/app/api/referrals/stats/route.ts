@@ -54,22 +54,25 @@ export async function GET(request: Request) {
   try {
     // Log all headers for debugging
     const authHeader = request.headers.get("authorization");
-    const allHeaders = Object.fromEntries(request.headers.entries());
-    console.log("Stats API request headers:", { authHeader, headersCount: Object.keys(allHeaders).length });
+    console.log("Stats API request - authHeader present:", !!authHeader);
 
-    // TEMPORARY: Make endpoint public to test generate button functionality
-    // TODO: Re-add auth after fixing token issues
-    
-    // Try to get user ID from token (if provided)
-    let userId: string | null = null;
+    // Try multiple auth methods
+    let token: string | null = null;
 
-    let token = await getTokenFromCookies();
-    console.log("Token from cookies:", token ? `${token.slice(0, 20)}...` : "NOT FOUND");
+    // 1. Cookies
+    token = await getTokenFromCookies();
+    if (token) {
+      console.log("Stats: Token from cookies");
+    }
 
+    // 2. Authorization header
     if (!token && authHeader?.startsWith("Bearer ")) {
       token = authHeader.slice(7);
-      console.log("Token from Authorization header:", token ? `${token.slice(0, 20)}...` : "NOT FOUND");
+      console.log("Stats: Token from Authorization header");
     }
+
+    // Try to get user ID from token (if provided)
+    let userId: string | null = null;
 
     if (token) {
       try {
@@ -91,7 +94,7 @@ export async function GET(request: Request) {
         }
       }
     } else {
-      console.log("✗ No token found anywhere");
+      console.log("✗ No token found");
     }
 
     // If no token/user found, return a basic response to allow UI to work
