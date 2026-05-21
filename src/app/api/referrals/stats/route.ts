@@ -75,16 +75,14 @@ export async function GET(request: Request) {
     let userId: string | null = null;
 
     if (token) {
-      try {
-        const decoded = verifyToken(token) as any;
-        if (decoded?.id) {
-          userId = decoded.id;
-          console.log("✓ Decoded as JWT, userId:", userId);
-        } else {
-          console.log("JWT decoded but no id found");
-        }
-      } catch (jwtError) {
-        console.log("JWT decode failed:", jwtError instanceof Error ? jwtError.message : String(jwtError));
+      // Try JWT first
+      const decoded = verifyToken(token) as any;
+      if (decoded?.id) {
+        userId = decoded.id;
+        console.log("✓ Decoded as JWT, userId:", userId);
+      } else {
+        // JWT verification failed, try Supabase token
+        console.log("JWT decode failed, trying Supabase token");
         const supabaseDecoded = decodeSupabaseAccessToken(token);
         if (supabaseDecoded?.id) {
           userId = supabaseDecoded.id;

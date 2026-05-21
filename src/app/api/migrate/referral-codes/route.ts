@@ -94,16 +94,14 @@ export async function POST(request: Request) {
 
     let userId: string | null = null;
 
-    // Try to verify as JWT first
-    try {
-      const decoded = verifyToken(token) as any;
-      if (decoded?.id) {
-        userId = decoded.id;
-        console.log("POST: Decoded as JWT, userId:", userId);
-      }
-    } catch (jwtError) {
+    // Try to verify as JWT first (verifyToken returns null on failure, doesn't throw)
+    const decoded = verifyToken(token) as any;
+    if (decoded?.id) {
+      userId = decoded.id;
+      console.log("POST: Decoded as JWT, userId:", userId);
+    } else {
+      // JWT verification failed, try Supabase token
       console.log("POST: JWT decode failed, trying Supabase token");
-      // Not a JWT, try Supabase token
       const supabaseDecoded = decodeSupabaseAccessToken(token);
       if (supabaseDecoded?.id) {
         userId = supabaseDecoded.id;
