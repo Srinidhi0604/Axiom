@@ -6887,6 +6887,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "AI&ML-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5aiml_2023batch.pdf",
@@ -8040,6 +8076,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "AI&ML-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -15794,6 +15890,42 @@
           "error": "Invalid PDF structure",
           "courses": []
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "CIVIL-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5cv_2023batch.pdf",
@@ -17235,6 +17367,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "CIVIL-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -25368,6 +25560,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "CSBS-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5cbcs_2023batch.pdf",
@@ -26521,6 +26749,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "CSBS-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -32616,6 +32904,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "CSE-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5cse_2023batch.pdf",
@@ -33841,6 +34165,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "CSE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -39072,6 +39456,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "ECE-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5ece_2023batch.pdf",
@@ -40995,6 +41415,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "ECE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -51030,6 +51510,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "EEE-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5eee_2023batch.pdf",
@@ -52255,6 +52771,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "EEE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -59345,6 +59921,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "ETE-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5ete_2023batch.pdf",
@@ -60858,6 +61470,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "ETE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -68248,6 +68920,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "ISE-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5ise_2023batch.pdf",
@@ -69473,6 +70181,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "ISE-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }
@@ -74604,6 +75372,42 @@
             }
           ]
         },
+        "4": {
+          "batch": 2021,
+          "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2021-batch/4sem.pdf",
+          "courses": [
+            {
+              "code": "MECH-MATH401",
+              "title": "Advanced Mathematics IV",
+              "modules": [
+                {
+                  "slug": "fourier",
+                  "title": "Fourier Transforms"
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS402",
+              "title": "Operating Systems",
+              "modules": [
+                {
+                  "slug": "os-intro",
+                  "title": "OS Basics"
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS403",
+              "title": "Design and Analysis of Algorithms",
+              "modules": [
+                {
+                  "slug": "algo-design",
+                  "title": "Algorithm Design"
+                }
+              ]
+            }
+          ]
+        },
         "5": {
           "batch": 2023,
           "pdf": "https://bmsit.ac.in/img/pdf/autonomous/2023-batch/5me_2023batch.pdf",
@@ -76045,6 +76849,66 @@
                       "xp": 115
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS501",
+              "title": "Database Management Systems",
+              "modules": [
+                {
+                  "slug": "db-intro",
+                  "title": "DB Intro"
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS502",
+              "title": "Computer Networks",
+              "modules": [
+                {
+                  "slug": "net-intro",
+                  "title": "Network Basics"
+                }
+              ]
+            },
+            {
+              "code": "MECH-CS503",
+              "title": "Software Engineering",
+              "modules": [
+                {
+                  "slug": "se-intro",
+                  "title": "SE Introduction"
                 }
               ]
             }

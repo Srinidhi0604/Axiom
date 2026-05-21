@@ -44,11 +44,20 @@ export default function HomePage() {
           </p>
 
           <div className={styles.heroActions}>
-            <Link href="/papers" className="btn-minimalist">
-              Explore Paper Labs
+            <Link href="/college" className="btn-minimalist">
+              College Prep
             </Link>
-            <Link href="/placement" className="btn-secondary" style={{ textDecoration: "none" }}>
-              Launch PlacePrep
+            <Link href="/gate" className="btn-minimalist">
+              GATE Command
+            </Link>
+            <Link href="/papers" className="btn-minimalist">
+              Paper Labs
+            </Link>
+            <Link href="/placement" className="btn-minimalist">
+              PlacePrep
+            </Link>
+            <Link href="/vibe" className="btn-minimalist">
+              Vibe Lab
             </Link>
           </div>
         </div>
@@ -138,7 +147,12 @@ export default function HomePage() {
                   </div>
                   <h3>{feature.title}</h3>
                 </div>
-                <p>{feature.desc}</p>
+                <p style={{ marginBottom: "20px" }}>{feature.desc}</p>
+                <div style={{ marginTop: "auto" }}>
+                  <span className="btn-secondary" style={{ display: "inline-block", width: "100%", textAlign: "center" }}>
+                    Open {feature.title}
+                  </span>
+                </div>
               </div>
             </Link>
           ))}
