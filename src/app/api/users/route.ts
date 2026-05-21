@@ -8,7 +8,7 @@ export async function GET(request: Request) {
 
     // Fetch users, sorted by score descending
     const users = await User.find({})
-      .select("username score problemsSolved createdAt")
+      .select("username score problemsSolved referralCode referralCount createdAt")
       .sort({ score: -1 })
       .lean();
 

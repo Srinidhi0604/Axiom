@@ -91,13 +91,27 @@ export function createSessionToken(user: { _id: unknown; username: string; email
   );
 }
 
-export function publicUser(user: { _id: unknown; username: string; email: string; avatarUrl?: string; authProvider?: string }) {
+export function publicUser(user: {
+  _id: unknown;
+  username: string;
+  email: string;
+  avatarUrl?: string;
+  authProvider?: string;
+  referralCode?: string;
+  referredBy?: string;
+  referralCount?: number;
+  score?: number;
+}) {
   return {
     id: String(user._id),
     username: user.username,
     email: user.email,
     avatarUrl: user.avatarUrl ?? "",
     authProvider: user.authProvider ?? "password",
+    referralCode: user.referralCode ?? "",
+    referredBy: user.referredBy ?? "",
+    referralCount: user.referralCount ?? 0,
+    score: user.score ?? 0,
   };
 }
 

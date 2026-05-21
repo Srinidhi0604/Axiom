@@ -58,7 +58,10 @@ async function findSupabaseProfile(username: string) {
               ? match.user_metadata.picture
               : "",
         authProvider: match.app_metadata?.provider === "google" ? "google" : "supabase",
-        score: 0,
+        referralCode: typeof match.user_metadata?.referralCode === "string" ? match.user_metadata.referralCode : "",
+        referredBy: typeof match.user_metadata?.referredBy === "string" ? match.user_metadata.referredBy : "",
+        referralCount: Number(match.user_metadata?.referralCount || 0),
+        score: Number(match.user_metadata?.score || 0),
         problemsSolved: 0,
         solvedProblems: [],
         badges: [],

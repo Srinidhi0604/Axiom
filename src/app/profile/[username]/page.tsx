@@ -277,6 +277,11 @@ export default function ProfilePage({
             value: user.score || 0,
             color: "var(--accent-green)",
           },
+          {
+            label: "Referrals",
+            value: user.referralCount || 0,
+            color: "var(--accent-purple)",
+          },
         ].map((stat) => (
           <div
             key={stat.label}
@@ -304,6 +309,43 @@ export default function ProfilePage({
             </div>
           </div>
         ))}
+      </div>
+
+      <div
+        className="glass-card-static"
+        style={{ padding: 24, marginBottom: 24 }}
+      >
+        <h3
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            marginBottom: 12,
+            color: "var(--text-secondary)",
+          }}
+        >
+          Referral
+        </h3>
+        <div style={{ display: "grid", gap: 10 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+            <span style={{ color: "var(--text-muted)", fontSize: 13 }}>Code</span>
+            <code style={{ color: "var(--accent-cyan)", fontSize: 13 }}>
+              {user.referralCode || "Available after next login"}
+            </code>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+            <span style={{ color: "var(--text-muted)", fontSize: 13 }}>Invite link</span>
+            <code style={{ color: "var(--text-secondary)", fontSize: 12, wordBreak: "break-all" }}>
+              {typeof window !== "undefined" && user.referralCode
+                ? `${window.location.origin}/auth/signup?ref=${user.referralCode}`
+                : "Sign in again if this is an older account"}
+            </code>
+          </div>
+          {user.referredBy ? (
+            <div style={{ color: "var(--text-muted)", fontSize: 13 }}>
+              Referred by <span style={{ color: "var(--accent-green)" }}>{user.referredBy}</span>
+            </div>
+          ) : null}
+        </div>
       </div>
 
       {/* Difficulty breakdown */}

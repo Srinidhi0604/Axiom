@@ -10,6 +10,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [referralCode, setReferralCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const { signup, loginWithGoogle, user } = useAuth();
@@ -19,6 +20,7 @@ export default function SignupPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setAuthError(params.get("error"));
+    setReferralCode(params.get("ref") || params.get("referral") || "");
   }, []);
 
   if (user) {
@@ -37,7 +39,7 @@ export default function SignupPage() {
       return;
     }
     setLoading(true);
-    const success = await signup(username, email, password);
+    const success = await signup(username, email, password, referralCode);
     setLoading(false);
     if (success) {
       showToast(`Welcome to Axiom, ${username}!`, "success");
@@ -174,6 +176,21 @@ export default function SignupPage() {
             />
             <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 6, lineHeight: 1.5 }}>
               Use 8+ characters with uppercase, lowercase, and a number.
+            </p>
+          </div>
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--text-secondary)", marginBottom: 6 }}>
+              Referral code
+            </label>
+            <input
+              type="text"
+              className="input-field"
+              placeholder="Optional"
+              value={referralCode}
+              onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+            />
+            <p style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 6, lineHeight: 1.5 }}>
+              If a friend invited you, they get 50 extra points after signup.
             </p>
           </div>
           <button

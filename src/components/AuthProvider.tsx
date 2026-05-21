@@ -9,12 +9,16 @@ interface AuthUser {
   email: string;
   avatarUrl?: string;
   authProvider?: string;
+  referralCode?: string;
+  referredBy?: string;
+  referralCount?: number;
+  score?: number;
 }
 
 interface AuthContextType {
   user: AuthUser | null;
   login: (email: string, password: string) => Promise<boolean>;
-  signup: (username: string, email: string, password: string) => Promise<boolean>;
+  signup: (username: string, email: string, password: string, referralCode?: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
   logout: () => Promise<void>;
   isLoading: boolean;
@@ -223,7 +227,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signup = async (username: string, email: string, password: string): Promise<boolean> => {
+  const signup = async (username: string, email: string, password: string, referralCode?: string): Promise<boolean> => {
     try {
       const response = await fetch("/api/auth/signup", {
         method: "POST",
@@ -231,7 +235,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, referralCode }),
       });
 
       if (!response.ok) return false;
@@ -249,6 +253,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             data: {
               username,
               full_name: username,
+              referredBy: referralCode || "",
             },
           },
         }).catch(() => {});

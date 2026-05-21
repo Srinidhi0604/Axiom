@@ -44,6 +44,23 @@ const UserSchema = new Schema(
       enum: ["password", "google", "supabase"],
       default: "password",
     },
+    referralCode: {
+      type: String,
+      sparse: true,
+      unique: true,
+      index: true,
+      uppercase: true,
+      trim: true,
+    },
+    referredBy: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    referralCount: {
+      type: Number,
+      default: 0,
+    },
     score: {
       type: Number,
       default: 0,
@@ -66,6 +83,7 @@ const UserSchema = new Schema(
 
 UserSchema.index({ email: 1 }, { unique: true });
 UserSchema.index({ username: 1 }, { unique: true });
+UserSchema.index({ referralCode: 1 }, { unique: true, sparse: true });
 
 const User = models.User || model("User", UserSchema);
 

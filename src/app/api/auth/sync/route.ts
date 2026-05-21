@@ -20,6 +20,12 @@ function usernameFromSupabase(email: string, id: string, name?: string | null) {
   return `${base}_${id.slice(-6).toLowerCase()}`.slice(0, 40);
 }
 
+function makeReferralCode(username: string, idOrEmail: string) {
+  const base = normalizeUsername(username).replace(/_/g, "").toUpperCase().slice(0, 8) || "AXIOM";
+  const suffix = idOrEmail.replace(/[^a-zA-Z0-9]/g, "").slice(-6).toUpperCase() || Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `${base}${suffix}`;
+}
+
 function supabaseOnlyUser(supabaseUser: SupabaseLikeUser) {
   const email = (supabaseUser.email || "").toLowerCase().trim();
   const displayName =
@@ -41,6 +47,13 @@ function supabaseOnlyUser(supabaseUser: SupabaseLikeUser) {
     email,
     avatarUrl,
     authProvider: supabaseUser.app_metadata?.provider === "google" ? "google" : "supabase",
+    referralCode:
+      typeof supabaseUser.user_metadata?.referralCode === "string"
+        ? supabaseUser.user_metadata.referralCode
+        : makeReferralCode(usernameFromSupabase(email, supabaseUser.id, displayName), supabaseUser.id),
+    referredBy: typeof supabaseUser.user_metadata?.referredBy === "string" ? supabaseUser.user_metadata.referredBy : "",
+    referralCount: Number(supabaseUser.user_metadata?.referralCount || 0),
+    score: Number(supabaseUser.user_metadata?.score || 0),
   };
 }
 
@@ -130,6 +143,7 @@ export async function POST(request: Request) {
             supabaseId: supabaseUser.id,
             avatarUrl,
             authProvider: provider,
+            referralCode: makeReferralCode(usernameFromSupabase(email, supabaseUser.id, displayName), supabaseUser.id),
             lastLoginAt: new Date(),
           });
         } catch (createError: any) {
@@ -147,6 +161,7 @@ export async function POST(request: Request) {
       user.supabaseId = user.supabaseId || supabaseUser.id;
       user.avatarUrl = avatarUrl || user.avatarUrl;
       user.authProvider = provider;
+      user.referralCode = user.referralCode || makeReferralCode(user.username, String(user._id));
       user.lastLoginAt = new Date();
       await user.save();
     } catch (databaseError) {

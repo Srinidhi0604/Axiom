@@ -4,6 +4,12 @@ import connectToDatabase from "@/lib/mongodb";
 import { comparePassword, createSessionToken, publicUser, setAuthCookie } from "@/lib/auth";
 import User from "@/models/User";
 
+function makeReferralCode(username: string, idOrEmail: string) {
+  const base = username.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8) || "AXIOM";
+  const suffix = idOrEmail.replace(/[^a-zA-Z0-9]/g, "").slice(-6).toUpperCase() || Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `${base}${suffix}`;
+}
+
 async function signInWithSupabasePassword(email: string, password: string) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -40,6 +46,10 @@ async function signInWithSupabasePassword(email: string, password: string) {
     email: data.user.email.toLowerCase().trim(),
     avatarUrl: typeof data.user.user_metadata?.avatar_url === "string" ? data.user.user_metadata.avatar_url : "",
     authProvider: "supabase",
+    referralCode: typeof data.user.user_metadata?.referralCode === "string" ? data.user.user_metadata.referralCode : "",
+    referredBy: typeof data.user.user_metadata?.referredBy === "string" ? data.user.user_metadata.referredBy : "",
+    referralCount: Number(data.user.user_metadata?.referralCount || 0),
+    score: Number(data.user.user_metadata?.score || 0),
   };
   const token = createSessionToken(user);
   const response = NextResponse.json({
@@ -75,6 +85,9 @@ export async function POST(request: Request) {
     }
 
     user.lastLoginAt = new Date();
+    if (!user.referralCode) {
+      user.referralCode = makeReferralCode(user.username, String(user._id));
+    }
     await user.save();
 
     const token = createSessionToken(user);
