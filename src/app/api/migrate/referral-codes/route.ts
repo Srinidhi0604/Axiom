@@ -17,6 +17,22 @@ function makeReferralCode(username: string, idOrEmail: string) {
   return `${base}${suffix}`;
 }
 
+function decodeSupabaseAccessToken(accessToken: string): { id: string } | null {
+  try {
+    const [, payload] = accessToken.split(".");
+    if (!payload) return null;
+
+    const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const decoded = JSON.parse(Buffer.from(normalized, "base64").toString("utf8"));
+    const id = typeof decoded.sub === "string" ? decoded.sub : "";
+
+    if (!id) return null;
+    return { id };
+  } catch {
+    return null;
+  }
+}
+
 /**
  * POST /api/migrate/referral-codes
  * Generates missing referral codes for older accounts
@@ -39,15 +55,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const decoded = verifyToken(token) as any;
-    if (!decoded?.id) {
+    let userId: string | null = null;
+
+    // Try to verify as JWT first
+    try {
+      const decoded = verifyToken(token) as any;
+      if (decoded?.id) {
+        userId = decoded.id;
+      }
+    } catch {
+      // Not a JWT, try Supabase token
+      const supabaseDecoded = decodeSupabaseAccessToken(token);
+      if (supabaseDecoded?.id) {
+        userId = supabaseDecoded.id;
+      }
+    }
+
+    if (!userId) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
     await connectToDatabase();
 
     // Get the current user to check if they're running the migration
-    const currentUser = await User.findById(decoded.id);
+    const currentUser = await User.findById(userId);
     if (!currentUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
