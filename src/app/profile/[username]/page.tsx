@@ -326,19 +326,23 @@ export default function ProfilePage({
           Referral
         </h3>
         <div style={{ display: "grid", gap: 10 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             <span style={{ color: "var(--text-muted)", fontSize: 13 }}>Code</span>
-            <code style={{ color: "var(--accent-cyan)", fontSize: 13 }}>
-              {user.referralCode || "Available after next login"}
+            <code style={{ color: user.referralCode ? "var(--accent-cyan)" : "var(--text-muted)", fontSize: 13 }}>
+              {user.referralCode ? user.referralCode : "Not generated yet"}
             </code>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             <span style={{ color: "var(--text-muted)", fontSize: 13 }}>Invite link</span>
-            <code style={{ color: "var(--text-secondary)", fontSize: 12, wordBreak: "break-all" }}>
-              {typeof window !== "undefined" && user.referralCode
-                ? `${window.location.origin}/auth/signup?ref=${user.referralCode}`
-                : "Sign in again if this is an older account"}
-            </code>
+            {typeof window !== "undefined" && user.referralCode ? (
+              <code style={{ color: "var(--accent-green)", fontSize: 12, wordBreak: "break-all", maxWidth: 300, textOverflow: "ellipsis" }}>
+                {`${window.location.origin}/auth/signup?ref=${user.referralCode}`}
+              </code>
+            ) : (
+              <span style={{ color: "var(--accent-amber)", fontSize: 12 }}>
+                Visit <strong>/referrals</strong> to generate your code
+              </span>
+            )}
           </div>
           {user.referredBy ? (
             <div style={{ color: "var(--text-muted)", fontSize: 13 }}>
