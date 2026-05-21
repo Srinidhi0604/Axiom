@@ -41,8 +41,6 @@ export default function ReferralsPage() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
-
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -77,11 +75,13 @@ export default function ReferralsPage() {
           setLeaderboard(leaderboardData.leaderboard);
 
           // Find user's rank
-          const rank = leaderboardData.leaderboard.find(
-            (u: LeaderboardUser) => u.username === user.username,
-          );
-          if (rank) {
-            setUserRank(rank.rank);
+          if (user) {
+            const rank = leaderboardData.leaderboard.find(
+              (u: LeaderboardUser) => u.username === user.username,
+            );
+            if (rank) {
+              setUserRank(rank.rank);
+            }
           }
         }
       } catch (error) {
