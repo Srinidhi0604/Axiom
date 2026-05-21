@@ -98,7 +98,7 @@ export function CompanyGrid() {
   return (
     <main className={styles.shell}>
       <h1>Company Questions</h1>
-      <p className={styles.subtitle}>Browse 660+ company archives generated from CodeJeet CSVs.</p>
+      <p className={styles.subtitle}>Browse 660+ company archives generated from CSVs.</p>
       <div style={{ height: 20 }} />
       <SearchBar value={search} onChange={setSearch} placeholder="Search company name" />
       <div className={styles.grid} style={{ marginTop: 22 }}>
