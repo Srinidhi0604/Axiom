@@ -234,17 +234,19 @@ main {
 }
 
 .heatmap-cell:hover {
-  outline: 1px solid rgba(255, 255, 255, 0.3);
-  transform: scale(1.3);
+  outline: 2px solid rgba(52, 211, 153, 0.6);
+  transform: scale(1.15);
   z-index: 10;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
-.heatmap-0 { background: rgba(255, 255, 255, 0.04); }
-.heatmap-1 { background: rgba(6, 182, 212, 0.2); }
-.heatmap-2 { background: rgba(6, 182, 212, 0.4); }
-.heatmap-3 { background: rgba(6, 182, 212, 0.6); }
-.heatmap-4 { background: rgba(6, 182, 212, 0.8); }
-.heatmap-5 { background: rgba(6, 182, 212, 1); }
+/* Green gradient: no activity → light mint → mid green → emerald → deep green */
+.heatmap-0 { background: rgba(255, 255, 255, 0.05); }
+.heatmap-1 { background: rgba(187, 247, 208, 0.25); }
+.heatmap-2 { background: rgba(74, 222, 128, 0.45); }
+.heatmap-3 { background: rgba(34, 197, 94, 0.68); }
+.heatmap-4 { background: rgba(22, 163, 74, 0.85); }
+.heatmap-5 { background: rgba(21, 128, 61, 1); box-shadow: 0 0 6px rgba(21, 128, 61, 0.5); }
 
 /* Current user highlight */
 .highlight-row {
