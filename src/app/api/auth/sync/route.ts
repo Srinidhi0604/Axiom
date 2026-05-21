@@ -126,6 +126,16 @@ export async function POST(request: Request) {
     return response;
   } catch (error) {
     console.error("Supabase sync error:", error);
-    return NextResponse.json({ error: "Failed to sync auth user" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Unknown auth sync error";
+    const code = message.toLowerCase().includes("supabase")
+      ? "supabase_config"
+      : message.toLowerCase().includes("secret")
+        ? "session_secret"
+        : "auth_sync_failed";
+
+    return NextResponse.json(
+      { error: "Failed to sync auth user", code },
+      { status: 500 },
+    );
   }
 }
