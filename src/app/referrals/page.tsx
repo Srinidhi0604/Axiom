@@ -164,17 +164,6 @@ export default function ReferralsPage() {
     }
   };
 
-  if (!user) {
-    return (
-      <div style={{ padding: "40px 24px", textAlign: "center" }}>
-        <p>Please log in to view referral information.</p>
-        <Link href="/auth/login" style={{ color: "var(--accent-cyan)" }}>
-          Log in
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 24px" }}>
       {/* Header */}
