@@ -148,7 +148,7 @@ export function PlacementHome() {
 
   return (
     <main className={styles.paperShell}>
-      <Link href="/" className={styles.backLink}>{"<- Back to PaperLabs"}</Link>
+      <Link href="/" className={styles.backLink}>{"<- Back to Axiom"}</Link>
 
       <section className={styles.paperHero}>
         <div>
@@ -159,7 +159,7 @@ export function PlacementHome() {
             <span>16 System Design</span>
             <span>{data?.questions.length ?? 17000}+ Questions</span>
           </div>
-          <p>Crack any interview systematically with PaperLabs-style implementation tracks for DSA, company prep, core CS, and system design.</p>
+          <p>Crack any interview systematically with Axiom-style implementation tracks for DSA, company prep, core CS, and system design.</p>
         </div>
         <div className={styles.heroActions}>
           <Link className="btn-primary" href="/placement/dsa">Open DSA Sheet</Link>

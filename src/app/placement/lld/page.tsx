@@ -11,7 +11,7 @@ export default function LldPage() {
       <section style={{ marginTop: 58, marginBottom: 48 }}>
         <h1 style={{ fontSize: "clamp(34px, 6vw, 56px)", fontWeight: 900, lineHeight: 1.05 }}>LLD + Machine Coding</h1>
         <p style={{ color: "var(--text-secondary)", maxWidth: 780, lineHeight: 1.75, marginTop: 24 }}>
-          Object-oriented design rounds shaped as PaperLabs implementation tracks.
+          Object-oriented design rounds shaped as Axiom implementation tracks.
         </p>
       </section>
       <div className={styles.taskTrack}>

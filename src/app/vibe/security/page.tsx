@@ -11,7 +11,7 @@ export default function VibeSecurityPage() {
       <section style={{ marginTop: 32 }}>
         <p className={styles.eyebrow}>Cyber Attack Simulation Lab</p>
         <h1 style={{ fontSize: 48, fontWeight: 950 }}>Security vulnerabilities</h1>
-        <p className={styles.muted}>Each issue is a PaperLabs-style implementation challenge: read the vulnerability, patch it, run, submit.</p>
+        <p className={styles.muted}>Each issue is an Axiom-style implementation challenge: read the vulnerability, patch it, run, submit.</p>
       </section>
       <div className={styles.trackList} style={{ marginTop: 34 }}>
         {track?.tasks.map((task, index) => (

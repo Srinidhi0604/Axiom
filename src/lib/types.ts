@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript types and interfaces for PaperLabs application
+ * Shared TypeScript types and interfaces for Axiom application
  */
 
 // Domain Enums

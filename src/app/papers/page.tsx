@@ -1,5 +1,6 @@
 import { PapersBrowser } from "@/components/PapersBrowser";
 import type { PaperTrack } from "@/data/papers";
+import { PapersWrapper } from "@/components/PapersWrapper";
 
 type ActiveTrack = PaperTrack | "all";
 
@@ -18,5 +19,9 @@ export default async function PapersPage({
   const params = await searchParams;
   const initialTrack = parseTrack(params.track);
 
-  return <PapersBrowser initialTrack={initialTrack} />;
+  return (
+    <PapersWrapper>
+      <PapersBrowser initialTrack={initialTrack} />
+    </PapersWrapper>
+  );
 }

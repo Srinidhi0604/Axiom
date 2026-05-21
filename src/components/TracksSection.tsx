@@ -11,7 +11,7 @@ export default function TracksSection() {
           Explore by <span style={{ color: "#a855f7" }}>Vertical</span>
         </h2>
         <p style={{ color: "#9ca3af", fontSize: 18, maxWidth: 680, margin: "0 auto 64px", lineHeight: 1.6 }}>
-          The same PaperLabs build-first learning experience, now split into five focused student paths.
+          The same Axiom build-first learning experience, now split into five focused student paths.
         </p>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24, textAlign: "left" }}>

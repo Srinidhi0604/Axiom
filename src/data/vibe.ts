@@ -51,7 +51,7 @@ export const vibeTracks: VibeTrack[] = [
     slug: "security-lab",
     title: "Security Attack Lab",
     badge: "Attack",
-    description: "Practice finding and fixing repo vulnerabilities with PaperLabs-style implementation tasks.",
+    description: "Practice finding and fixing repo vulnerabilities with Axiom-style implementation tasks.",
     tasks: [
       makeTask("nosql-injection", "Fix NoSQL Injection", "Validate login payloads so Mongo operators cannot bypass authentication.", "Security", "Hard", "export function validateLogin(body) {\n  if (typeof body.username !== 'string') throw new Error('invalid username');\n  if (typeof body.password !== 'string') throw new Error('invalid password');\n  return body;\n}\n", ["Rejects object username", "Rejects object password", "Returns generic auth errors"]),
       makeTask("xss-comments", "Prevent Stored XSS", "Render user comments safely and remove dangerous HTML paths.", "Security", "Medium", "export function SafeComment({ text }) {\n  return <div>{text}</div>;\n}\n", ["Escapes script tags", "Avoids dangerous inner HTML", "Keeps plain text readable"]),

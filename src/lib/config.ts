@@ -74,7 +74,7 @@ export function getAppConfig() {
     isDev: isDevelopment(),
     isProd: isProduction(),
     isTest: isTest(),
-    mongodbUri: getEnvVar("MONGODB_URI", "mongodb://localhost:27017/paperlabs"),
+    mongodbUri: getEnvVar("MONGODB_URI", "mongodb://localhost:27017/axiom"),
     jwtSecret: getEnvVar("JWT_SECRET"),
   } as const;
 }

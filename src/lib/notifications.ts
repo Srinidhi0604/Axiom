@@ -63,7 +63,7 @@ export function parseEmail(emailString: string): { name: string; email: string }
  */
 export function getWelcomeEmailTemplate(name: string, activationUrl: string): string {
   return `
-    <h2>Welcome to PaperLabs, ${name}!</h2>
+    <h2>Welcome to Axiom, ${name}!</h2>
     <p>Thank you for signing up. Please confirm your email by clicking the link below:</p>
     <p><a href="${activationUrl}">Activate your account</a></p>
     <p>This link expires in 24 hours.</p>

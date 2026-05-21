@@ -15,7 +15,7 @@ export default async function CollegeSemesterDepartmentPage({ params }: { params
       <section style={{ marginTop: 32 }}>
         <p className={styles.eyebrow}>{department.id} / Semester {semester}</p>
         <h1 style={{ fontSize: 44, fontWeight: 950 }}>Course tracks</h1>
-        <p className={styles.muted}>Each course opens into a PaperLabs-style learning map.</p>
+        <p className={styles.muted}>Each course opens into an Axiom-style learning map.</p>
       </section>
       <div className={styles.trackList} style={{ marginTop: 32 }}>
         {courses.map((course, index) => (

@@ -6,7 +6,7 @@ import styles from "./home.module.css";
 const featureCards = [
   {
     title: "College Exam Prep",
-    desc: "Semester, department, course, module, and concept workspaces from the College Prep vertical.",
+    desc: "Semester, department, course, module, and concept workspaces structured for engineering students.",
     href: "/college",
   },
   {
@@ -38,17 +38,17 @@ export default function HomePage() {
         <div className={styles.heroCopy}>
           <h1 className={styles.heroTitle}>Axiom</h1>
           <p className={styles.heroText}>
-            PaperLabs redefined as one multi-vertical education platform: college exams,
-            GATE, research papers, placements, and repo-based learning, all inside the same
-            implementation-first workspace.
+            The ultimate multi-vertical education platform: master your college exams, 
+            crack GATE, dissect research papers, secure top placements, and practice real-world repo building.
+            All integrated into one unified workspace.
           </p>
 
           <div className={styles.heroActions}>
             <Link href="/papers" className="btn-minimalist">
-              Start Implementing
+              Explore Paper Labs
             </Link>
             <Link href="/placement" className="btn-secondary" style={{ textDecoration: "none" }}>
-              Open PlacePrep
+              Launch PlacePrep
             </Link>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function HomePage() {
           What Axiom <span style={{ color: "var(--accent-pink)" }}>actually offers</span>
         </h2>
         <p className={styles.sectionIntro}>
-          One integrated app, five complete verticals, one shared PaperLabs design language.
+          One integrated app, five complete verticals, and a beautifully unified design language.
         </p>
 
         <div className={styles.featureGrid}>

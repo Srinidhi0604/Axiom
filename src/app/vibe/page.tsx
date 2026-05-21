@@ -1,9 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { vibeTracks } from "@/data/vibe";
 import styles from "../axiom.module.css";
 import { VibeScanner } from "./VibeScanner";
+import { ProductLanding } from "@/components/ProductLanding";
 
-export default function VibePage() {
+function VibeHome() {
   const taskCount = vibeTracks.reduce((count, track) => count + track.tasks.length, 0);
 
   return (
@@ -48,42 +52,57 @@ export default function VibePage() {
           {[
             ["Principles Map", "Architecture map and first-principles breakdown.", "/vibe/map"],
             ["Repo Tasks", "Generated learning tasks from a scan.", "/vibe/tasks/repo-learning"],
-            ["Attack Lab", "Security vulnerabilities as implementation challenges.", "/vibe/security"],
-            ["Scale Plan", "Mass-user survival plan with scaling tasks.", "/vibe/scale"],
-            ["CEO Simulator", "Startup tickets, messages, users, equity, and sprint pressure.", "/vibe/ceo"],
+            ["Security Sandbox", "Vulnerabilities parsed as lab exercises.", "/vibe/security"],
+            ["Scaling Simulator", "Scale from 1K to 10M users via tasks.", "/vibe/scale"],
+            ["CEO Mode", "Read high-level project summaries.", "/vibe/ceo"],
+            ["Founder Mode", "Deep-dive operational metrics.", "/vibe/founder"],
           ].map(([title, desc, href]) => (
-            <Link className={styles.card} href={href} key={title}>
+            <Link className={styles.card} href={String(href)} key={title} style={{ padding: 20, display: "flex", flexDirection: "column", gap: 16 }}>
               <div>
-                <div className={styles.cardStripe} style={{ background: "#10B981" }} />
-                <h3>{title}</h3>
-                <p className={styles.muted}>{desc}</p>
+                <div style={{ height: 4, width: 32, background: "var(--accent-pink)", marginBottom: 16, borderRadius: 4 }} />
+                <h3 style={{ fontSize: 16 }}>{title}</h3>
+                <p className={styles.muted} style={{ fontSize: 13, marginTop: 8 }}>{desc}</p>
               </div>
-              <span className={styles.action}>Open</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <div><p className={styles.eyebrow}>Tracks</p><h2>Repo learning paths</h2></div>
-        </div>
-        <div className={styles.trackList}>
-          {vibeTracks.map((track, index) => (
-            <Link className={styles.trackRow} href={`/vibe/tasks/${track.slug}`} key={track.slug}>
-              <div className={styles.index}><span>TRACK</span><strong>{String(index + 1).padStart(2, "0")}</strong></div>
-              <div className={styles.rowBody}>
-                <h3>{track.title}</h3>
-                <p className={styles.muted}>{track.description}</p>
-              </div>
-              <div className={styles.rowMeta}>
-                <span className={styles.pill}>{track.badge}</span>
-                <span className={styles.pill}>{track.tasks.length} Tasks</span>
-              </div>
+              <span className={styles.action} style={{ color: "var(--accent-pink)", fontSize: 13, fontWeight: 600 }}>Enter &rarr;</span>
             </Link>
           ))}
         </div>
       </section>
     </main>
+  );
+}
+
+export default function VibePage() {
+  const [launched, setLaunched] = useState(false);
+
+  if (launched) return <VibeHome />;
+
+  return (
+    <ProductLanding
+      subtitle="Axiom Labs"
+      title="Vibe Lab"
+      description="Turn any GitHub repository into an interactive learning environment. Generate tasks, analyze architecture, and simulate scaling challenges dynamically."
+      launchText="Enter Vibe Lab"
+      colorHex="#10b981"
+      features={[
+        {
+          title: "Intelligent Repo Scanner",
+          desc: "Input any GitHub URL and Vibe Lab breaks down its architecture into foundational concepts.",
+        },
+        {
+          title: "Security & Scaling Drills",
+          desc: "Practice patching vulnerabilities or scaling a project from 1K to 10M concurrent users.",
+        },
+        {
+          title: "Multi-Perspective Modes",
+          desc: "Switch between Developer, Architect, Founder, and CEO modes for tailored insights.",
+        },
+        {
+          title: "Generated Tasks",
+          desc: "Get personalized, interactive implementation tasks generated directly from the codebase.",
+        }
+      ]}
+      onLaunch={() => setLaunched(true)}
+    />
   );
 }

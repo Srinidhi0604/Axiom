@@ -8,7 +8,7 @@ import { ToastContainer } from "@/components/Toast";
 export const metadata: Metadata = {
   title: "Axiom - Integrated Learning Platform",
   description:
-    "One PaperLabs-designed platform for college exams, GATE, research paper implementation, placements, and repo-based learning.",
+    "One Axiom-designed platform for college exams, GATE, research paper implementation, placements, and repo-based learning.",
   keywords: ["education", "college prep", "gate", "placements", "research papers", "implementation"],
 };
 
