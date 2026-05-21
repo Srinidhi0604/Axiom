@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
-import Link from "next/link";
 import { collegeDepartments, getCollegeSemesters, getCollegeStats, slugifyDepartment } from "@/lib/college";
 import styles from "../axiom.module.css";
 import { ProductLanding } from "@/components/ProductLanding";

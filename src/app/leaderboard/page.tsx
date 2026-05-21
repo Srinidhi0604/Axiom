@@ -81,8 +81,6 @@ export default function LeaderboardPage() {
     );
   }
 
-  const sortedUsers = [...users].sort((a, b) => b.score - a.score);
-
   return (
     <div
       style={{ maxWidth: 1000, margin: "0 auto", padding: "40px 24px 80px" }}
