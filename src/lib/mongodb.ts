@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 
 type MongooseCache = {
   conn: typeof mongoose | null;
@@ -29,7 +29,7 @@ async function connectToDatabase() {
 
   if (!cached.promise) {
     const opts = {
-      dbName: process.env.MONGODB_DB_NAME || "axiom",
+      dbName: process.env.MONGODB_DB_NAME || process.env.MONGO_DB || "axiom",
       bufferCommands: false,
       maxPoolSize: Number(process.env.MONGODB_MAX_POOL_SIZE ?? 20),
       minPoolSize: Number(process.env.MONGODB_MIN_POOL_SIZE ?? 1),
