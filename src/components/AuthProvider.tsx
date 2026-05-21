@@ -202,27 +202,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) return false;
-
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error || !data.session?.access_token) return false;
-
-      const response = await fetch("/api/auth/sync", {
+      const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${data.session.access_token}`,
         },
         credentials: "include",
-        body: JSON.stringify({ accessToken: data.session.access_token }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) return false;
-      const synced = await response.json();
-      setUser(synced.user);
-      persistAppAuth(synced.user, synced.token);
+      const data = await response.json();
+      setUser(data.user);
+      persistAppAuth(data.user, data.token);
       return true;
     } catch (error) {
       console.error("Login error:", error);
@@ -231,41 +224,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signup = async (username: string, email: string, password: string): Promise<boolean> => {
-    const supabase = getSupabaseBrowserClient();
-    if (!supabase) return false;
-
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username,
-            full_name: username,
-          },
-        },
-      });
-
-      if (error) return false;
-      const accessToken = data.session?.access_token;
-      if (!accessToken) {
-        return true;
-      }
-
-      const response = await fetch("/api/auth/sync", {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
         },
         credentials: "include",
-        body: JSON.stringify({ accessToken }),
+        body: JSON.stringify({ username, email, password }),
       });
 
       if (!response.ok) return false;
-      const synced = await response.json();
-      setUser(synced.user);
-      persistAppAuth(synced.user, synced.token);
+
+      const data = await response.json();
+      setUser(data.user);
+      persistAppAuth(data.user, data.token);
+
+      const supabase = getSupabaseBrowserClient();
+      if (supabase) {
+        supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              username,
+              full_name: username,
+            },
+          },
+        }).catch(() => {});
+      }
+
       return true;
     } catch (error) {
       console.error("Signup error:", error);
