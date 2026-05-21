@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import User from "@/models/User";
-import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret";
+import { getTokenFromCookies, verifyToken } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
@@ -11,22 +9,19 @@ export async function POST(request: Request) {
     const { problemId, points } = await request.json();
 
     const authHeader = request.headers.get("authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    const bearer = authHeader?.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+    const token = bearer || await getTokenFromCookies();
+    if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const token = authHeader.split(" ")[1];
-    let decoded;
-    try {
-      decoded = jwt.verify(token, JWT_SECRET) as {
-        userId: string;
-        email: string;
-      };
-    } catch (e) {
+    const decoded = verifyToken(token) as { userId?: string; sub?: string; email?: string } | null;
+    const userId = decoded?.userId || decoded?.sub;
+    if (!userId) {
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });
     }
 
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(userId);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }

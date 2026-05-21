@@ -1,7 +1,5 @@
-import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
-
-const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret";
+import { verifyToken } from "@/lib/auth";
 
 export function getUserIdFromRequest(request: Request) {
   const authHeader = request.headers.get("authorization");
@@ -16,8 +14,8 @@ export function getUserIdFromRequest(request: Request) {
   if (!token) return null;
 
   try {
-    const payload = jwt.verify(token, JWT_SECRET) as { userId?: string; sub?: string };
-    return payload.userId || payload.sub || null;
+    const payload = verifyToken(token) as { userId?: string; sub?: string } | null;
+    return payload?.userId || payload?.sub || null;
   } catch {
     return null;
   }

@@ -2,6 +2,7 @@
  * Authentication and JWT utilities
  */
 
+import { cookies } from "next/headers";
 import jwt, { JwtPayload, type SignOptions } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
@@ -9,9 +10,7 @@ import bcrypt from "bcryptjs";
  * Create JWT token
  */
 export function createToken(payload: object, expiresIn: SignOptions["expiresIn"] = "7d"): string {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error("JWT_SECRET not configured");
-  return jwt.sign(payload, secret, { expiresIn });
+  return jwt.sign(payload, getJwtSecret(), { expiresIn });
 }
 
 /**
@@ -19,9 +18,7 @@ export function createToken(payload: object, expiresIn: SignOptions["expiresIn"]
  */
 export function verifyToken(token: string): JwtPayload | null {
   try {
-    const secret = process.env.JWT_SECRET;
-    if (!secret) throw new Error("JWT_SECRET not configured");
-    return jwt.verify(token, secret) as JwtPayload;
+    return jwt.verify(token, getJwtSecret()) as JwtPayload;
   } catch {
     return null;
   }
@@ -60,10 +57,79 @@ export function extractTokenFromHeader(authHeader: string | undefined): string |
  */
 export function generateSessionPayload(userId: string, username: string) {
   return {
+    userId,
     sub: userId,
     username,
     iat: Math.floor(Date.now() / 1000),
   };
+}
+
+export const AUTH_COOKIE = "axiom_token";
+export const AUTH_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
+
+export function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || secret.length < 32) {
+    throw new Error("JWT_SECRET must be configured and at least 32 characters for production");
+  }
+  return secret;
+}
+
+export function createSessionToken(user: { _id: unknown; username: string; email: string }) {
+  return jwt.sign(
+    {
+      userId: String(user._id),
+      sub: String(user._id),
+      username: user.username,
+      email: user.email,
+    },
+    getJwtSecret(),
+    { expiresIn: "7d" },
+  );
+}
+
+export function publicUser(user: { _id: unknown; username: string; email: string; avatarUrl?: string; authProvider?: string }) {
+  return {
+    id: String(user._id),
+    username: user.username,
+    email: user.email,
+    avatarUrl: user.avatarUrl ?? "",
+    authProvider: user.authProvider ?? "password",
+  };
+}
+
+export async function getTokenFromCookies() {
+  const cookieStore = await cookies();
+  return cookieStore.get(AUTH_COOKIE)?.value ?? cookieStore.get("token")?.value ?? null;
+}
+
+export function setAuthCookie(response: Response & { cookies?: { set: (...args: any[]) => void } }, token: string) {
+  response.cookies?.set(AUTH_COOKIE, token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: AUTH_MAX_AGE_SECONDS,
+  });
+  response.cookies?.set("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: AUTH_MAX_AGE_SECONDS,
+  });
+}
+
+export function clearAuthCookie(response: Response & { cookies?: { set: (...args: any[]) => void } }) {
+  for (const name of [AUTH_COOKIE, "token"]) {
+    response.cookies?.set(name, "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
+  }
 }
 
 /**

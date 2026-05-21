@@ -5,7 +5,6 @@ const PlacementProgressSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
-    unique: true,
   },
   solvedProblems: {
     type: [String],
@@ -22,7 +21,7 @@ const PlacementProgressSchema = new Schema({
   },
 });
 
-PlacementProgressSchema.index({ userId: 1 });
+PlacementProgressSchema.index({ userId: 1 }, { unique: true });
 
 const PlacementProgress = models.PlacementProgress || model("PlacementProgress", PlacementProgressSchema);
 

@@ -7,11 +7,11 @@ import { useAuth } from "./AuthProvider";
 
 const navLinks = [
   { href: "/papers", label: "Papers" },
-  { href: "/fundamentals", label: "Fundamentals" },
-  { href: "/tracks", label: "Tracks" },
+  { href: "/college", label: "College" },
+  { href: "/gate", label: "GATE" },
   { href: "/placement", label: "PlacePrep" },
+  { href: "/vibe", label: "Vibe Lab" },
   { href: "/leaderboard", label: "Leaderboard" },
-  { href: "/pricing", label: "Pricing" },
 ];
 
 export function Navbar() {
@@ -44,7 +44,6 @@ export function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        {/* Logo */}
         <Link
           href="/"
           style={{
@@ -59,21 +58,13 @@ export function Navbar() {
             &gt;_
           </span>
           <span style={{ fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em" }}>
-            PaperLabs
+            Axiom
           </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-          className="nav-links-desktop"
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }} className="nav-links-desktop">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
               <Link
                 key={link.href}
@@ -95,10 +86,8 @@ export function Navbar() {
           })}
         </div>
 
-        {/* Auth area */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           {!isLoading && user ? (
-            /* Logged in - show user menu */
             <div style={{ position: "relative" }}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -109,13 +98,6 @@ export function Navbar() {
                   border: "none",
                   cursor: "pointer",
                   padding: 0,
-                  transition: "transform 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "scale(1.05)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = "scale(1)";
                 }}
               >
                 <div
@@ -136,7 +118,7 @@ export function Navbar() {
                 </div>
               </button>
 
-              {dropdownOpen && (
+              {dropdownOpen ? (
                 <div
                   style={{
                     position: "absolute",
@@ -148,7 +130,6 @@ export function Navbar() {
                     borderRadius: 12,
                     padding: 8,
                     minWidth: 180,
-                    animation: "slideUp 0.2s ease",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
                   }}
                 >
@@ -162,18 +143,9 @@ export function Navbar() {
                       fontSize: 13,
                       color: "var(--text-secondary)",
                       textDecoration: "none",
-                      transition: "all 0.15s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.target as HTMLElement).style.background = "rgba(255,255,255,0.06)";
-                      (e.target as HTMLElement).style.color = "var(--text-primary)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.target as HTMLElement).style.background = "";
-                      (e.target as HTMLElement).style.color = "var(--text-secondary)";
                     }}
                   >
-                    👤 My Profile
+                    My Profile
                   </Link>
                   <div style={{ height: 1, background: "rgba(255,255,255,0.06)", margin: "4px 0" }} />
                   <button
@@ -193,22 +165,14 @@ export function Navbar() {
                       background: "none",
                       border: "none",
                       cursor: "pointer",
-                      transition: "all 0.15s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.target as HTMLElement).style.background = "rgba(239,68,68,0.1)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.target as HTMLElement).style.background = "";
                     }}
                   >
-                    🚪 Log out
+                    Log out
                   </button>
                 </div>
-              )}
+              ) : null}
             </div>
           ) : !isLoading ? (
-            /* Not logged in */
             <>
               <Link
                 href="/auth/login"
@@ -227,7 +191,6 @@ export function Navbar() {
             </>
           ) : null}
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             style={{
@@ -242,13 +205,12 @@ export function Navbar() {
             className="mobile-menu-btn"
             aria-label="Toggle menu"
           >
-            {mobileOpen ? "✕" : "☰"}
+            {mobileOpen ? "X" : "="}
           </button>
         </div>
       </nav>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
+      {mobileOpen ? (
         <div
           style={{
             padding: "16px 24px",
@@ -277,10 +239,10 @@ export function Navbar() {
             </Link>
           ))}
         </div>
-      )}
+      ) : null}
 
       <style jsx global>{`
-        @media (max-width: 768px) {
+        @media (max-width: 920px) {
           .nav-links-desktop {
             display: none !important;
           }

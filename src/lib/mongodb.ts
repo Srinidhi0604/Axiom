@@ -25,7 +25,13 @@ async function connectToDatabase() {
 
   if (!cached.promise) {
     const opts = {
+      dbName: process.env.MONGODB_DB_NAME || "axiom",
       bufferCommands: false,
+      maxPoolSize: Number(process.env.MONGODB_MAX_POOL_SIZE ?? 20),
+      minPoolSize: Number(process.env.MONGODB_MIN_POOL_SIZE ?? 1),
+      serverSelectionTimeoutMS: 8000,
+      socketTimeoutMS: 45000,
+      maxIdleTimeMS: 60000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {

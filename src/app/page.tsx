@@ -1,79 +1,22 @@
 import Link from "next/link";
 import ResearchSection from "@/components/ResearchSection";
-import TracksSection from "@/components/TracksSection";
-
-const featureCards = [
-  {
-    title: "College Exam Prep",
-    desc: "Semester, department, course, module, and concept workspaces from the College Prep vertical.",
-    href: "/college",
-  },
-  {
-    title: "GATE Command",
-    desc: "PYQs, mocks, formulas, syllabus, analytics, rank predictor, and practice mode.",
-    href: "/gate",
-  },
-  {
-    title: "Paper Labs",
-    desc: "Research paper readers and implementation tracks with runnable code tasks.",
-    href: "/papers",
-  },
-  {
-    title: "PlacePrep",
-    desc: "DSA, company questions, system design, LLD, SQL, aptitude, and interview prep.",
-    href: "/placement",
-  },
-  {
-    title: "Vibe Lab",
-    desc: "Repo analysis, generated implementation tasks, security labs, scaling drills, and simulator flows.",
-    href: "/vibe",
-  },
-];
+import { axiomVerticals } from "@/data/axiom";
+import styles from "./axiom.module.css";
 
 export default function HomePage() {
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-      <section
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "100px 0 80px",
-          minHeight: "80vh",
-          flexWrap: "wrap",
-          gap: 40,
-        }}
-        className="animate-fade-in"
-      >
-        <div style={{ flex: "1 1 500px", maxWidth: 540 }}>
-          <h1
-            style={{
-              fontSize: "clamp(48px, 5vw, 64px)",
-              fontFamily: "var(--font-serif)",
-              fontWeight: 400,
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-              marginBottom: 24,
-            }}
-          >
-            Don&apos;t just study. Compile your semester, exam, paper, and career.
-          </h1>
-          <p
-            style={{
-              fontSize: 18,
-              color: "var(--text-secondary)",
-              marginBottom: 40,
-              lineHeight: 1.6,
-            }}
-          >
-            Axiom is PaperLabs redefined as a five-vertical education platform: college exams,
-            GATE, research papers, placements, and repo-based learning, all inside the same
-            implementation-first workspace.
+    <div className={styles.shell}>
+      <section className={styles.hero}>
+        <div>
+          <p className={styles.eyebrow}>Axiom</p>
+          <h1>One PaperLabs-style app for all five student verticals.</h1>
+          <p>
+            Keep the same dark PaperLabs shell, but move across research papers, placement prep,
+            college exam maps, GATE practice, and Vibe Lab repo workflows without leaving the app.
           </p>
-
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Link href="/papers" className="btn-minimalist">
-              Start Implementing
+          <div className={styles.heroActions}>
+            <Link href="/papers" className="btn-primary" style={{ textDecoration: "none" }}>
+              Open Paper Labs
             </Link>
             <Link href="/placement" className="btn-secondary" style={{ textDecoration: "none" }}>
               Open PlacePrep
@@ -81,89 +24,67 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div style={{ flex: "1 1 400px", display: "flex", justifyContent: "center", position: "relative" }}>
-          <div style={{ position: "relative", width: 400, height: 400 }}>
-            <svg width="100%" height="100%" viewBox="0 0 400 400" style={{ overflow: "visible" }}>
-              {[
-                [200, 50, 300, 80],
-                [200, 50, 100, 150],
-                [300, 80, 400, 200],
-                [100, 150, 200, 250],
-                [200, 250, 300, 200],
-                [300, 200, 400, 200],
-                [100, 150, 100, 300],
-                [100, 300, 200, 350],
-                [200, 250, 200, 350],
-                [200, 250, 300, 300],
-                [300, 300, 400, 350],
-                [400, 200, 400, 350],
-                [200, 50, 200, 150],
-                [300, 80, 200, 150],
-                [300, 200, 300, 300],
-                [200, 150, 300, 200],
-                [200, 150, 100, 300],
-              ].map(([x1, y1, x2, y2], index) => (
-                <line key={index} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-              ))}
-              {[
-                [200, 50],
-                [300, 80],
-                [100, 150],
-                [200, 150],
-                [400, 200],
-                [100, 300],
-                [200, 250],
-                [300, 200],
-                [200, 350],
-                [300, 300],
-                [400, 350],
-              ].map(([cx, cy], index) => (
-                <circle key={index} cx={cx} cy={cy} r="7" fill="white" />
-              ))}
-              <circle r="3" fill="#ef4444">
-                <animateMotion dur="3s" repeatCount="indefinite" path="M191.5,58.5 L108.5,141.5 L191.5,58.5" />
-              </circle>
-              <circle r="3" fill="#3b82f6">
-                <animateMotion dur="4s" repeatCount="indefinite" path="M211.5,53.5 L288.5,76.5 L211.5,53.5" />
-              </circle>
-              <circle r="3" fill="#10b981">
-                <animateMotion dur="3.6s" repeatCount="indefinite" path="M200,262 L200,338 L200,262" />
-              </circle>
-            </svg>
+        <div className={styles.panel}>
+          <div className={styles.miniGrid}>
+            <div className={styles.metric}>
+              <div>
+                <span className={styles.eyebrow} style={{ marginBottom: 6, display: "block" }}>Verticals</span>
+                <strong>5</strong>
+              </div>
+              <span className={styles.pill}>Unified shell</span>
+            </div>
+            <div className={styles.metric}>
+              <div>
+                <span className={styles.eyebrow} style={{ marginBottom: 6, display: "block" }}>Placement</span>
+                <strong>17,931</strong>
+              </div>
+              <span className={styles.pill}>Questions</span>
+            </div>
+            <div className={styles.metric}>
+              <div>
+                <span className={styles.eyebrow} style={{ marginBottom: 6, display: "block" }}>Learning</span>
+                <strong>One app</strong>
+              </div>
+              <span className={styles.pill}>Axiom</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <ResearchSection />
-      <TracksSection />
+      <section className={styles.section}>
+        <div className={styles.sectionHead}>
+          <div>
+            <p className={styles.eyebrow}>Verticals</p>
+            <h2>Everything accessible from the landing page</h2>
+          </div>
+        </div>
 
-      <section style={{ padding: "80px 0 120px", textAlign: "center" }}>
-        <h2 style={{ fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 600, marginBottom: 16, letterSpacing: "-0.02em" }}>
-          What Axiom <span style={{ color: "var(--accent-pink)" }}>actually offers</span>
-        </h2>
-        <p style={{ color: "var(--text-secondary)", fontSize: 18, maxWidth: 680, margin: "0 auto 64px", lineHeight: 1.6 }}>
-          One integrated app, five complete verticals, one shared PaperLabs design language.
-        </p>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24, textAlign: "left", marginBottom: 64 }}>
-          {featureCards.map((feature) => (
-            <Link key={feature.title} href={feature.href} style={{ textDecoration: "none" }}>
-              <div style={{ padding: 32, borderRadius: 8, background: "#1a1a1a", border: "1px solid #2a2a2a", minHeight: 210, transition: "all 0.15s ease" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-                  <div style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", borderRadius: 8, color: "var(--text-muted)" }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <path d="M12 6v6l4 2"></path>
-                    </svg>
-                  </div>
-                  <h3 style={{ fontSize: 15, fontWeight: 500, fontFamily: "var(--font-mono)", color: "var(--text-primary)" }}>{feature.title}</h3>
+        <div className={styles.grid}>
+          {axiomVerticals.map((vertical) => (
+            <Link key={vertical.slug} href={vertical.href} className={styles.card}>
+              <div>
+                <div className={styles.cardStripe} style={{ background: vertical.accent }} />
+                <h3>{vertical.title}</h3>
+                <p className={styles.muted}>{vertical.description}</p>
+              </div>
+              <div>
+                <div className={styles.stats}>
+                  {vertical.stats.map((stat) => (
+                    <span key={stat} className={styles.pill}>{stat}</span>
+                  ))}
                 </div>
-                <p style={{ color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6 }}>{feature.desc}</p>
+                <div className={styles.actions}>
+                  {vertical.actions.map((action) => (
+                    <span key={action.href} className={styles.action}>{action.label}</span>
+                  ))}
+                </div>
               </div>
             </Link>
           ))}
         </div>
       </section>
+
+      <ResearchSection />
     </div>
   );
 }
