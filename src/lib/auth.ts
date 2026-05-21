@@ -121,14 +121,19 @@ export async function getTokenFromCookies() {
 }
 
 export function setAuthCookie(response: Response & { cookies?: { set: (...args: any[]) => void } }, token: string) {
-  response.cookies?.set(AUTH_COOKIE, token, {
+  if (!response.cookies) {
+    console.warn("Response does not have cookies property - auth cookie not set");
+    return;
+  }
+
+  response.cookies.set(AUTH_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: AUTH_MAX_AGE_SECONDS,
   });
-  response.cookies?.set("token", token, {
+  response.cookies.set("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

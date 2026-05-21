@@ -172,6 +172,8 @@ export async function POST(request: Request) {
     return completeAuth(user);
   } catch (error) {
     console.error("Supabase sync error:", error);
+    console.error("Error type:", error instanceof Error ? error.message : String(error));
+    console.error("Error stack:", error instanceof Error ? error.stack : "N/A");
 
     if (accessToken) {
       const decodedUser = decodeSupabaseAccessToken(accessToken);
@@ -180,6 +182,7 @@ export async function POST(request: Request) {
           return completeAuth(supabaseOnlyUser(decodedUser));
         } catch (fallbackError) {
           console.error("Supabase token fallback failed:", fallbackError);
+          console.error("Fallback error type:", fallbackError instanceof Error ? fallbackError.message : String(fallbackError));
         }
       }
     }
