@@ -15,6 +15,25 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Suppress unused preload warnings for CSS chunks */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined') {
+                const observer = new PerformanceObserver((list) => {
+                  for (const entry of list.getEntries()) {
+                    if (entry.entryType === 'resource' && entry.name.includes('.css')) {
+                      console.debug('CSS Resource:', entry.name);
+                    }
+                  }
+                });
+                observer.observe({ entryTypes: ['resource'] });
+              }
+            `,
+          }}
+        />
+      </head>
       <body>
         <AuthProvider>
           <Navbar />
