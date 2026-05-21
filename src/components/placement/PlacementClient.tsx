@@ -147,7 +147,65 @@ export function PlacementHome() {
   const progress = Math.round((Math.min(solvedSet.size, 450) / 450) * 100);
 
   return (
-    <main className={styles.paperShell}>
+    <>
+      {/* PlacePrep Navigation Bar */}
+      <nav style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 40,
+        background: "rgba(0, 0, 0, 0.6)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(255,255,255,0.05)",
+        padding: "0 24px",
+      }}>
+        <div style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          height: 56,
+          gap: 2,
+        }}>
+          <Link href="/placement" style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            textDecoration: "none",
+            marginRight: 24,
+            color: "var(--text-primary)",
+            fontWeight: 600,
+            fontSize: 14,
+          }}>
+            PlacePrep
+          </Link>
+          {categories.map((cat) => (
+            <Link key={cat.title} href={cat.href} style={{
+              padding: "6px 14px",
+              borderRadius: 6,
+              fontSize: 13,
+              textDecoration: "none",
+              color: "var(--text-secondary)",
+              transition: "all 0.2s ease",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              const target = e.currentTarget as HTMLElement;
+              target.style.background = "rgba(255,255,255,0.08)";
+              target.style.color = "var(--text-primary)";
+            }}
+            onMouseLeave={(e) => {
+              const target = e.currentTarget as HTMLElement;
+              target.style.background = "transparent";
+              target.style.color = "var(--text-secondary)";
+            }}>
+              {cat.title}
+            </Link>
+          ))}
+        </div>
+      </nav>
+
+      <main className={styles.paperShell}>
       <Link href="/" className={styles.backLink}>{"<- Back to Axiom"}</Link>
 
       <section className={styles.paperHero}>
@@ -248,6 +306,7 @@ export function PlacementHome() {
         </div>
       </section>
     </main>
+    </>
   );
 }
 
