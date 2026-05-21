@@ -114,6 +114,15 @@ Compete with the global community:
 - **Skill Endorsements**: Community validation of your expertise areas
 - **Discussion Forums**: Per-paper and per-problem discussion communities (future feature)
 
+### 🎁 Referral Program & Community Growth
+Grow the community and earn rewards:
+- **Unique Referral Codes**: Each user gets a personalized referral code
+- **Referral Rewards**: Earn 50 bonus points for each successful referral
+- **Invite Links**: Shareable links for easy signup (e.g., `/auth/signup?ref=YOUR_CODE`)
+- **Referral Tracking**: See all users you've referred with their join dates
+- **Referral Leaderboard**: Top referrers ranked by number of successful invites and total points
+- **Referral Stats Dashboard**: View your referral metrics, bonus points earned, and community impact
+
 ### 🔐 Robust Authentication & User Management System
 Enterprise-grade user authentication and data management:
 
@@ -227,6 +236,9 @@ pullgame/
 │   │   │   │   ├── callback/          # OAuth callback handler
 │   │   │   │   ├── signin/            # Sign-in endpoint
 │   │   │   │   └── signup/            # Sign-up endpoint
+│   │   │   ├── referrals/             # Referral program API
+│   │   │   │   ├── leaderboard/       # Top referrers leaderboard endpoint
+│   │   │   │   └── stats/             # User referral stats endpoint
 │   │   │   ├── reviews/               # Code review API
 │   │   │   ├── submit/                # Problem submission endpoint
 │   │   │   └── users/                 # User profile endpoints
@@ -237,6 +249,7 @@ pullgame/
 │   │   │   ├── [subject]/[slug]/      # Dynamic fundamentals pages
 │   │   │   └── problems/[taskSlug]/   # Fundamental problem pages
 │   │   ├── leaderboard/               # Global leaderboard page
+│   │   ├── referrals/                 # Referral program page
 │   │   ├── papers/                    # Papers module
 │   │   │   ├── [slug]/                # Individual paper detail page
 │   │   │   │   ├── page.tsx           # Paper overview
