@@ -85,9 +85,12 @@ export async function POST(request: Request) {
     }
 
     user.lastLoginAt = new Date();
+    
+    // Generate referral code if missing (for older accounts)
     if (!user.referralCode) {
       user.referralCode = makeReferralCode(user.username, String(user._id));
     }
+    
     await user.save();
 
     const token = createSessionToken(user);
