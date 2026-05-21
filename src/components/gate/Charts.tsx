@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 type ChartPoint = { label: string; value: number; color?: string };
 
 export function BarChart({ data }: { data: ChartPoint[] }) {
@@ -78,21 +82,8 @@ export function RadarChart({ data }: { data: ChartPoint[] }) {
   );
 }
 
-// Monthly question counts per stream — 12 months × 5 week-buckets each
+// Monthly question counts — 12 months
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-const STREAM_DATA: Record<string, number[][]> = {
-  cs:  [[0,2,0,3,4],[1,0,5,3,2],[4,6,3,0,5],[2,8,10,6,4],[0,3,7,12,9],[5,4,2,0,6],[8,11,7,5,3],[12,9,14,10,8],[6,13,18,15,11],[10,16,20,14,12],[18,22,17,25,20],[15,0,0,0,0]],
-  ece: [[0,0,2,1,3],[2,4,0,3,1],[3,5,2,0,4],[1,6,8,5,3],[4,2,6,10,7],[3,5,1,0,4],[7,9,5,4,2],[10,7,12,8,6],[5,11,15,12,9],[8,14,18,11,10],[15,19,14,22,17],[12,0,0,0,0]],
-  ee:  [[0,1,0,2,3],[1,3,0,2,1],[2,4,3,0,3],[1,5,7,4,2],[3,2,5,9,6],[4,3,1,0,5],[6,8,6,3,2],[9,6,11,7,5],[4,10,13,10,8],[7,12,16,9,8],[13,17,12,20,15],[10,0,0,0,0]],
-  me:  [[0,0,1,2,2],[1,2,0,1,1],[2,3,2,0,2],[1,4,6,3,2],[2,1,4,7,5],[3,2,1,0,3],[5,7,5,2,1],[8,5,9,6,4],[3,8,11,8,6],[6,10,14,8,7],[11,15,10,18,13],[8,0,0,0,0]],
-  ce:  [[0,1,0,1,2],[0,2,1,2,0],[2,3,1,0,2],[1,4,5,3,1],[2,1,3,6,4],[3,2,1,0,2],[4,6,4,2,1],[7,4,8,5,3],[2,7,10,7,5],[5,9,12,7,6],[10,13,9,16,11],[7,0,0,0,0]],
-  in:  [[0,0,1,1,2],[1,1,0,2,1],[1,3,2,0,2],[1,3,5,2,1],[1,2,3,5,4],[2,2,1,0,3],[4,5,3,2,1],[7,4,8,5,3],[3,6,9,6,4],[5,8,11,6,5],[9,12,8,14,10],[6,0,0,0,0]],
-};
-
-function getMonthlyData(streamId?: string): number[][] {
-  return STREAM_DATA[streamId ?? "cs"] ?? STREAM_DATA.cs;
-}
 
 function getLevel(count: number): number {
   if (count === 0) return 0;
@@ -104,14 +95,36 @@ function getLevel(count: number): number {
 }
 
 export function Heatmap({ streamId }: { streamId?: string }) {
-  const data = getMonthlyData(streamId);
-  const grandTotal = data.flat().reduce((s, v) => s + v, 0);
+  const [data, setData] = useState<number[][]>(Array.from({ length: 12 }, () => [0, 0, 0, 0, 0]));
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/gate/heatmap?stream=${streamId || "cs"}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.months) {
+            setData(json.months);
+            setTotal(json.total || 0);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch heatmap data", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [streamId]);
 
   return (
-    <div style={{ overflowX: "auto" }}>
+    <div style={{ overflowX: "auto", opacity: loading ? 0.6 : 1, transition: "opacity 0.2s" }}>
       {/* Total solved badge */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <span style={{ fontSize: 26, fontWeight: 900, color: "var(--accent-green)" }}>{grandTotal}</span>
+        <span style={{ fontSize: 26, fontWeight: 900, color: "var(--accent-green)" }}>{total}</span>
         <span style={{ fontSize: 13, color: "var(--text-muted)" }}>questions solved this year</span>
       </div>
 
@@ -139,10 +152,10 @@ export function Heatmap({ streamId }: { streamId?: string }) {
         {/* Monthly totals */}
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           {data.map((weeks, mIdx) => {
-            const total = weeks.reduce((s, v) => s + v, 0);
-            return total > 0 ? (
+            const mTotal = weeks.reduce((s, v) => s + v, 0);
+            return mTotal > 0 ? (
               <div key={mIdx} style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: "var(--accent-green)" }}>{total}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "var(--accent-green)" }}>{mTotal}</div>
                 <div style={{ fontSize: 10, color: "var(--text-muted)" }}>{MONTHS[mIdx]}</div>
               </div>
             ) : null;

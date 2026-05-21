@@ -2127,26 +2127,164 @@ main {
 @media (max-width: 768px) {
   .gate-shell {
     grid-template-columns: 1fr;
+    max-width: 100%;
+    overflow-x: clip;
   }
 
   .gate-sidebar {
     position: static;
     height: auto;
+    width: 100%;
+    padding: 12px 0 10px;
     border-right: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    touch-action: pan-x;
+  }
+
+  .gate-sidebar-brand {
+    padding: 8px 16px 12px;
   }
 
   .gate-sidebar-nav {
     display: flex;
+    gap: 8px;
+    width: 100%;
+    max-width: 100vw;
     overflow-x: auto;
-    padding-bottom: 4px;
+    overflow-y: hidden;
+    padding: 0 16px 8px;
+    scroll-padding-inline: 16px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    scrollbar-width: none;
+    mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 28px), transparent 100%);
+  }
+
+  .gate-sidebar-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .gate-sidebar-nav a {
+    flex: 0 0 auto;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
     white-space: nowrap;
+    scroll-snap-align: start;
   }
 
   .gate-content {
     padding: 28px 16px 90px;
+  }
+}
+
+/* ── GATE Stream Switcher — Responsive ──────────────────────────────────────── */
+
+.gate-stream-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 4px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.07);
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.gate-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.gate-plan-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.gate-charts-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.gate-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 1024px) {
+  .gate-stream-tabs {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 3px;
+    gap: 4px;
+    scrollbar-width: none;
+  }
+
+  .gate-stream-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gate-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gate-plan-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gate-charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gate-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .gate-stat-grid .glass-card-static {
+    padding: 14px !important;
+  }
+
+  .gate-stat-grid .glass-card-static > div:nth-child(2) {
+    font-size: 22px !important;
+  }
+
+  .gate-hero-grid h1 {
+    font-size: clamp(26px, 7vw, 42px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .gate-stream-tabs {
+    margin-bottom: 20px;
+  }
+
+  .gate-hero-grid {
+    margin-bottom: 20px;
+    gap: 16px;
+  }
+
+  .gate-plan-grid,
+  .gate-charts-grid {
+    gap: 12px;
+    margin-bottom: 20px;
   }
 }

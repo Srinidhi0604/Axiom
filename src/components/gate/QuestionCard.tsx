@@ -29,7 +29,7 @@ export function QuestionCard({
     setSelected([option]);
   }
 
-  function checkAnswer() {
+  async function checkAnswer() {
     let correct = false;
     if (question.type === "NAT") {
       correct = natAnswer.trim().toLowerCase() === String(question.answer).toLowerCase();
@@ -40,6 +40,21 @@ export function QuestionCard({
     }
     setResult({ correct, message: correct ? "Correct. Keep moving." : "Not there yet. Review the explanation and try again." });
     onAnswered?.(correct);
+
+    // Record activity in backend
+    try {
+      await fetch("/api/gate/activity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          questionId: question.id,
+          subjectId: question.subjectId,
+          correct,
+        }),
+      });
+    } catch (e) {
+      console.error("Failed to record activity", e);
+    }
   }
 
   function resetQuestion() {
