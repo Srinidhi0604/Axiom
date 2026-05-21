@@ -11,19 +11,7 @@ export default function Page() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push("/auth/login?redirect=/placement");
-    }
-  }, [user, isLoading, router]);
 
-  if (isLoading || !user) {
-    return (
-      <div style={{ textAlign: "center", padding: "100px 24px" }}>
-        <p style={{ color: "var(--text-secondary)" }}>Loading...</p>
-      </div>
-    );
-  }
 
   if (launched) return <PlacementHome />;
 

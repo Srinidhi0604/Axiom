@@ -117,19 +117,7 @@ export default function VibePage() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push("/auth/login?redirect=/vibe");
-    }
-  }, [user, isLoading, router]);
 
-  if (isLoading || !user) {
-    return (
-      <div style={{ textAlign: "center", padding: "100px 24px" }}>
-        <p style={{ color: "var(--text-secondary)" }}>Loading...</p>
-      </div>
-    );
-  }
 
   if (launched) return <VibeHome />;
 

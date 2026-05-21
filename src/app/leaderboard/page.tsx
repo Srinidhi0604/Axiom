@@ -20,12 +20,7 @@ export default function LeaderboardPage() {
   const { user: currentUser, isLoading } = useAuth();
   const router = useRouter();
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && !currentUser) {
-      router.push("/auth/login?redirect=/leaderboard");
-    }
-  }, [currentUser, isLoading, router]);
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -48,40 +43,7 @@ export default function LeaderboardPage() {
 
   const sortedUsers = [...users].sort((a, b) => b.score - a.score);
 
-  if (isLoading) {
-    return (
-      <div style={{ textAlign: "center", padding: "100px 24px" }}>
-        <p style={{ color: "var(--text-secondary)" }}>Loading...</p>
-      </div>
-    );
-  }
 
-  if (!currentUser) {
-    return (
-      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "40px 24px", textAlign: "center" }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 16 }}>
-          Leaderboard
-        </h1>
-        <p style={{ fontSize: 15, color: "var(--text-secondary)", marginBottom: 24 }}>
-          Sign in to view the leaderboard and compete with other learners.
-        </p>
-        <Link
-          href="/auth/login?redirect=/leaderboard"
-          style={{
-            display: "inline-block",
-            padding: "12px 24px",
-            borderRadius: 8,
-            background: "var(--accent-cyan)",
-            color: "black",
-            textDecoration: "none",
-            fontWeight: 600,
-          }}
-        >
-          Sign In to Continue
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <div

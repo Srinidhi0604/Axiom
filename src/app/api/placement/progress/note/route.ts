@@ -4,8 +4,7 @@ import { getUserIdFromRequest, unauthorized } from "@/lib/placement-auth";
 import PlacementProgress from "@/models/PlacementProgress";
 
 export async function POST(request: Request) {
-  const userId = getUserIdFromRequest(request);
-  if (!userId) return unauthorized();
+  const userId = getUserIdFromRequest(request) || "anonymous";
 
   const { slug, note } = await request.json();
   if (!slug || typeof note !== "string") {

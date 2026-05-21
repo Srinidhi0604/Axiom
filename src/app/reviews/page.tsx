@@ -49,11 +49,6 @@ export default function ReviewsPage() {
   const avgRating = reviews.reduce((a, r) => a + r.rating, 0) / reviews.length;
 
   const handleOpenModal = () => {
-    if (!user) {
-      showToast("Please log in to leave a review", "info");
-      router.push("/auth/login");
-      return;
-    }
     setShowModal(true);
   };
 
@@ -78,7 +73,7 @@ export default function ReviewsPage() {
     const newReview: Review = {
       id: `r-${Date.now()}`,
       userId: "current",
-      username: user!.username,
+      username: user?.username || "Anonymous",
       avatarUrl: "",
       rating,
       text: text.trim(),
