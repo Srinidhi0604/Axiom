@@ -87,6 +87,10 @@ export default function LoginPage() {
           <div style={{ marginBottom: 16, color: "var(--accent-amber)", fontSize: 13 }}>
             Google sign-in is not configured in this local build yet.
           </div>
+        ) : authError ? (
+          <div style={{ marginBottom: 16, color: "var(--accent-red)", fontSize: 13 }}>
+            Sign-in could not finish: {authError}
+          </div>
         ) : null}
 
         {googleEnabled ? (

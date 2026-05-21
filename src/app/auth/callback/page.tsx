@@ -4,6 +4,13 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
+function persistAppAuth(user: unknown, token: string) {
+  localStorage.setItem("axiom_user", JSON.stringify(user));
+  localStorage.setItem("axiom_token", token);
+  localStorage.setItem("pullgame_user", JSON.stringify(user));
+  localStorage.setItem("pullgame_token", token);
+}
+
 export default function AuthCallbackPage() {
   const router = useRouter();
 
@@ -23,12 +30,17 @@ export default function AuthCallbackPage() {
       if (code) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (error) {
-          router.replace("/auth/login?error=oauth_failed");
+          router.replace(`/auth/login?error=${encodeURIComponent(error.message || "oauth_failed")}`);
           return;
         }
       }
 
-      const { data } = await supabase.auth.getSession();
+      const { data, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        router.replace(`/auth/login?error=${encodeURIComponent(sessionError.message || "oauth_failed")}`);
+        return;
+      }
+
       const accessToken = data.session?.access_token;
 
       if (!accessToken) {
@@ -47,8 +59,15 @@ export default function AuthCallbackPage() {
       });
 
       if (!syncResponse.ok) {
-        router.replace("/auth/login?error=oauth_failed");
+        const errorData = await syncResponse.json().catch(() => ({}));
+        const message = errorData?.details || errorData?.error || "oauth_failed";
+        router.replace(`/auth/login?error=${encodeURIComponent(message)}`);
         return;
+      }
+
+      const synced = await syncResponse.json();
+      if (synced?.user && synced?.token) {
+        persistAppAuth(synced.user, synced.token);
       }
 
       if (!cancelled) {
