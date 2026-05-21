@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import connectToDatabase from "@/lib/mongodb";
+import connectToDatabase, { isDatabaseConfigured } from "@/lib/mongodb";
 import GateActivity from "@/models/GateActivity";
 import { getTokenFromCookies, verifyToken } from "@/lib/auth";
 
@@ -20,6 +20,19 @@ import { getTokenFromCookies, verifyToken } from "@/lib/auth";
  */
 export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const streamId = searchParams.get("stream") ?? "cs";
+    const year = parseInt(searchParams.get("year") ?? String(new Date().getFullYear()), 10);
+
+    if (!isDatabaseConfigured()) {
+      return NextResponse.json({
+        months: Array.from({ length: 12 }, () => [0, 0, 0, 0, 0]),
+        total: 0,
+        year,
+        streamId,
+      });
+    }
+
     await connectToDatabase();
 
     // ── Auth ──────────────────────────────────────────────────────────
@@ -39,10 +52,6 @@ export async function GET(request: Request) {
     }
 
     // ── Query params ───────────────────────────────────────────────────
-    const { searchParams } = new URL(request.url);
-    const streamId = searchParams.get("stream") ?? "cs";
-    const year = parseInt(searchParams.get("year") ?? String(new Date().getFullYear()), 10);
-
     const startDate = new Date(year, 0, 1);   // Jan 1
     const endDate   = new Date(year + 1, 0, 1); // Jan 1 next year
 

@@ -14,6 +14,10 @@ const globalWithMongoose = global as typeof globalThis & {
 const cached: MongooseCache = globalWithMongoose.mongoose ?? { conn: null, promise: null };
 globalWithMongoose.mongoose = cached;
 
+export function isDatabaseConfigured() {
+  return Boolean(MONGODB_URI);
+}
+
 async function connectToDatabase() {
   if (!MONGODB_URI) {
     throw new Error("Please define the MONGODB_URI environment variable inside .env");

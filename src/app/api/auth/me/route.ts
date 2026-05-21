@@ -1,15 +1,20 @@
 import { NextResponse } from "next/server";
-import connectToDatabase from "@/lib/mongodb";
+import connectToDatabase, { isDatabaseConfigured } from "@/lib/mongodb";
 import { getTokenFromCookies, publicUser, verifyToken } from "@/lib/auth";
 import User from "@/models/User";
 
 export async function GET(request: Request) {
   try {
-    await connectToDatabase();
     const authHeader = request.headers.get("authorization");
     const bearer = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
     const token = bearer || await getTokenFromCookies();
     if (!token) return NextResponse.json({ user: null }, { status: 200 });
+
+    if (!isDatabaseConfigured()) {
+      return NextResponse.json({ user: null }, { status: 200 });
+    }
+
+    await connectToDatabase();
 
     const payload = verifyToken(token);
     const userId = payload?.userId || payload?.sub;
