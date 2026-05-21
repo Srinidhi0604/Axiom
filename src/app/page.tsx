@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ResearchSection from "@/components/ResearchSection";
 import TracksSection from "@/components/TracksSection";
+import styles from "./home.module.css";
 
 const featureCards = [
   {
@@ -32,46 +33,17 @@ const featureCards = [
 
 export default function HomePage() {
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-      <section
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "100px 0 80px",
-          minHeight: "80vh",
-          flexWrap: "wrap",
-          gap: 40,
-        }}
-        className="animate-fade-in"
-      >
-        <div style={{ flex: "1 1 500px", maxWidth: 540 }}>
-          <h1
-            style={{
-              fontSize: "clamp(48px, 5vw, 64px)",
-              fontFamily: "var(--font-serif)",
-              fontWeight: 400,
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-              marginBottom: 24,
-            }}
-          >
-            Axiom
-          </h1>
-          <p
-            style={{
-              fontSize: 18,
-              color: "var(--text-secondary)",
-              marginBottom: 40,
-              lineHeight: 1.6,
-            }}
-          >
+    <div className={styles.page}>
+      <section className={`${styles.hero} animate-fade-in`}>
+        <div className={styles.heroCopy}>
+          <h1 className={styles.heroTitle}>Axiom</h1>
+          <p className={styles.heroText}>
             PaperLabs redefined as one multi-vertical education platform: college exams,
             GATE, research papers, placements, and repo-based learning, all inside the same
             implementation-first workspace.
           </p>
 
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <div className={styles.heroActions}>
             <Link href="/papers" className="btn-minimalist">
               Start Implementing
             </Link>
@@ -81,9 +53,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div style={{ flex: "1 1 400px", display: "flex", justifyContent: "center", position: "relative" }}>
-          <div style={{ position: "relative", width: 400, height: 400 }}>
-            <svg width="100%" height="100%" viewBox="0 0 400 400" style={{ overflow: "visible" }}>
+        <div className={styles.heroArt}>
+          <div className={styles.networkFrame} aria-hidden="true">
+            <svg viewBox="0 0 400 400">
               {[
                 [200, 50, 300, 80],
                 [200, 50, 100, 150],
@@ -145,28 +117,28 @@ export default function HomePage() {
       <ResearchSection />
       <TracksSection />
 
-      <section style={{ padding: "80px 0 120px", textAlign: "center" }}>
-        <h2 style={{ fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 600, marginBottom: 16, letterSpacing: "-0.02em" }}>
+      <section className={styles.offerSection}>
+        <h2 className={styles.sectionTitle}>
           What Axiom <span style={{ color: "var(--accent-pink)" }}>actually offers</span>
         </h2>
-        <p style={{ color: "var(--text-secondary)", fontSize: 18, maxWidth: 680, margin: "0 auto 64px", lineHeight: 1.6 }}>
+        <p className={styles.sectionIntro}>
           One integrated app, five complete verticals, one shared PaperLabs design language.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24, textAlign: "left", marginBottom: 64 }}>
+        <div className={styles.featureGrid}>
           {featureCards.map((feature) => (
-            <Link key={feature.title} href={feature.href} style={{ textDecoration: "none" }}>
-              <div style={{ padding: 32, borderRadius: 8, background: "#1a1a1a", border: "1px solid #2a2a2a", minHeight: 210, transition: "all 0.15s ease" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-                  <div style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.05)", borderRadius: 8, color: "var(--text-muted)" }}>
+            <Link key={feature.title} href={feature.href} className={styles.featureLink}>
+              <div className={styles.featureCard}>
+                <div className={styles.featureHeader}>
+                  <div className={styles.featureIcon}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="10" />
                       <path d="M12 6v6l4 2" />
                     </svg>
                   </div>
-                  <h3 style={{ fontSize: 15, fontWeight: 500, fontFamily: "var(--font-mono)", color: "var(--text-primary)" }}>{feature.title}</h3>
+                  <h3>{feature.title}</h3>
                 </div>
-                <p style={{ color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6 }}>{feature.desc}</p>
+                <p>{feature.desc}</p>
               </div>
             </Link>
           ))}

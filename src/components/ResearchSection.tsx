@@ -9,6 +9,7 @@ export default function ResearchSection() {
   const [smoothedProgress, setSmoothedProgress] = useState(0);
   const [activeTab, setActiveTab] = useState<'solution' | 'test' | 'problem'>('solution');
   const [terminalTab, setTerminalTab] = useState<'output' | 'tests'>('tests');
+  const [isPhone, setIsPhone] = useState(false);
 
   // Smooth out the scroll progress using requestAnimationFrame
   useEffect(() => {
@@ -44,6 +45,13 @@ export default function ResearchSection() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => setIsPhone(window.innerWidth < 700);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Calculate animation values using the smoothed progress
   const textOpacity = Math.max(0, 1 - smoothedProgress * 4);
   const textOffsetY = smoothedProgress * -50;
@@ -59,7 +67,7 @@ export default function ResearchSection() {
   const editorOffsetX = smoothedProgress > 0.3 ? 50 - (smoothedProgress - 0.3) * 100 : 50;
 
   return (
-    <section ref={containerRef} style={{ height: "300vh", position: "relative" }}>
+    <section ref={containerRef} style={{ height: isPhone ? "180vh" : "300vh", position: "relative", marginInline: "calc(50% - 50vw)" }}>
       <div style={{ position: "sticky", top: 0, height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#000", overflow: "hidden" }}>
         <MatrixBackground />
         
@@ -69,10 +77,10 @@ export default function ResearchSection() {
            <p style={{ color: "#9ca3af", fontSize: 15 }}>Dense. Intimidating. Abstract.</p>
         </div>
 
-        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 1000, display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: isPhone ? 360 : 1000, display: "flex", justifyContent: "center", alignItems: "center", padding: isPhone ? "0 14px" : 0 }}>
           
           {/* Stacked document icon */}
-          <div style={{ position: "absolute", width: 140, height: 180, transition: "transform 0.1s ease-out" }}>
+          <div style={{ position: "absolute", width: isPhone ? 100 : 140, height: isPhone ? 130 : 180, transition: "transform 0.1s ease-out", opacity: isPhone ? Math.max(0, 1 - smoothedProgress * 4) : 1 }}>
             {/* Back layers */}
             <div style={{ position: "absolute", top: 0, left: 20, right: -20, bottom: -10, background: "#0a0a0a", border: "1px solid #222", borderRadius: 12, opacity: backLayerOpacity }}></div>
             <div style={{ position: "absolute", top: 10, left: 10, right: -10, bottom: -20, background: "#111", border: "1px solid #2a2a2a", borderRadius: 12, opacity: backLayerOpacity }}></div>
@@ -97,14 +105,15 @@ export default function ResearchSection() {
           {/* Editor Mockup */}
           <div style={{ 
             position: "absolute", 
-            right: 0, 
-            width: "55%", 
-            height: 400, 
+            right: isPhone ? "50%" : 0,
+            width: isPhone ? "calc(100vw - 28px)" : "55%",
+            maxWidth: isPhone ? 360 : "none",
+            height: isPhone ? 330 : 400,
             background: "#1e1e1e", 
             border: "1px solid #333", 
             borderRadius: 12, 
             opacity: editorOpacity,
-            transform: `translateX(${editorOffsetX}px)`,
+            transform: isPhone ? `translateX(50%) translateY(34px)` : `translateX(${editorOffsetX}px)`,
             transition: "opacity 0.1s ease-out, transform 0.1s ease-out",
             display: "flex",
             flexDirection: "column",
@@ -189,7 +198,7 @@ export default function ResearchSection() {
                 {activeTab === 'problem' && (
                   <div style={{ padding: "0 24px", color: "#d4d4d4", fontFamily: "sans-serif", overflowY: "auto" }}>
                     <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 12, color: "white" }}>Scaled Dot-Product Attention</h3>
-                    <p style={{ fontSize: 14, lineHeight: 1.6, marginBottom: 16 }}>Implement the scaled dot-product attention mechanism as described in the "Attention Is All You Need" paper.</p>
+                    <p style={{ fontSize: 14, lineHeight: 1.6, marginBottom: 16 }}>Implement the scaled dot-product attention mechanism as described in the Attention Is All You Need paper.</p>
                     <p style={{ fontSize: 14, lineHeight: 1.6, color: "#9ca3af" }}>The function should compute:<br/> <code style={{ background: "#2d2d2d", padding: "2px 6px", borderRadius: 4, fontFamily: "monospace", fontSize: 12, color: "#d4d4d4" }}>Attention(Q, K, V) = softmax(QK^T / sqrt(d_k))V</code></p>
                   </div>
                 )}
