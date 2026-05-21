@@ -117,7 +117,15 @@ export async function POST(request: Request) {
     await connectToDatabase();
 
     // Get the current user to check if they're running the migration
-    const currentUser = await User.findById(userId);
+    // Handle both MongoDB ObjectId and Supabase UUID
+    let currentUser;
+    if (userId.includes("-")) {
+      // Looks like a UUID (Supabase ID)
+      currentUser = await User.findOne({ supabaseId: userId });
+    } else {
+      // Looks like a MongoDB ObjectId
+      currentUser = await User.findById(userId);
+    }
     if (!currentUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }

@@ -115,9 +115,19 @@ export async function GET(request: Request) {
 
     await connectToDatabase();
 
-    const user = await User.findById(userId).select(
-      "username referralCode referralCount score referredBy"
-    );
+    // Handle both MongoDB ObjectId and Supabase UUID
+    let user;
+    if (userId.includes("-")) {
+      // Looks like a UUID (Supabase ID)
+      user = await User.findOne({ supabaseId: userId }).select(
+        "username referralCode referralCount score referredBy"
+      );
+    } else {
+      // Looks like a MongoDB ObjectId
+      user = await User.findById(userId).select(
+        "username referralCode referralCount score referredBy"
+      );
+    }
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
