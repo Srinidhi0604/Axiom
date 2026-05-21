@@ -240,7 +240,7 @@ export default function ReferralsPage() {
           >
             <div style={{ marginBottom: 12 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginBottom: 8 }}>
-                Your Referral Code
+                Your Referral ID
               </div>
               <code
                 style={{
@@ -248,11 +248,12 @@ export default function ReferralsPage() {
                   padding: 12,
                   background: "rgba(0,0,0,0.3)",
                   borderRadius: 8,
-                  fontSize: 14,
-                  fontWeight: 600,
+                  fontSize: 16,
+                  fontWeight: 700,
                   color: "var(--accent-cyan)",
                   marginBottom: 12,
                   wordBreak: "break-all",
+                  letterSpacing: "0.05em",
                 }}
               >
                 {stats.referralCode}
