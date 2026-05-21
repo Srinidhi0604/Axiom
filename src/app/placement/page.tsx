@@ -1,11 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/AuthProvider";
 import { PlacementHome } from "@/components/placement/PlacementClient";
 import { ProductLanding } from "@/components/ProductLanding";
 
 export default function Page() {
   const [launched, setLaunched] = useState(false);
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/auth/login?redirect=/placement");
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading || !user) {
+    return (
+      <div style={{ textAlign: "center", padding: "100px 24px" }}>
+        <p style={{ color: "var(--text-secondary)" }}>Loading...</p>
+      </div>
+    );
+  }
 
   if (launched) return <PlacementHome />;
 

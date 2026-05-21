@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAuth } from "@/components/AuthProvider";
 import Link from "next/link";
 import { collegeDepartments, getCollegeSemesters, getCollegeStats, slugifyDepartment } from "@/lib/college";
 import styles from "../axiom.module.css";
@@ -67,6 +70,22 @@ function CollegeHome() {
 
 export default function CollegePage() {
   const [launched, setLaunched] = useState(false);
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/auth/login?redirect=/college");
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading || !user) {
+    return (
+      <div style={{ textAlign: "center", padding: "100px 24px" }}>
+        <p style={{ color: "var(--text-secondary)" }}>Loading...</p>
+      </div>
+    );
+  }
 
   if (launched) return <CollegeHome />;
 

@@ -1,9 +1,20 @@
 import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongodb";
 import User from "@/models/User";
+import { getTokenFromCookies, verifyToken } from "@/lib/auth";
 
 export async function GET(request: Request) {
   try {
+    // Require authentication to view leaderboard
+    const token = await getTokenFromCookies();
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const decoded = verifyToken(token) as any;
+    if (!decoded?.id) {
+      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+    }
+
     await connectToDatabase();
 
     const url = new URL(request.url);
