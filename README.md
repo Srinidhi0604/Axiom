@@ -1,13 +1,14 @@
-# 🧪 PaperLabs
+# 🚀 Axiom
 
-> **Don't just read the paper. Compile it.**
+> **Master Computer Science, One Problem at a Time**
 
-PaperLabs is a comprehensive, interactive educational platform designed to bridge the gap between theoretical research papers and practical implementation. It's an all-in-one environment where machine learning engineers, researchers, computer science students, and AI enthusiasts can:
-- Implement state-of-the-art models directly in the browser
+Axiom is a comprehensive, interactive educational platform designed to accelerate learning in computer science, data science, and competitive programming. It's an all-in-one environment where computer science students, software engineers, data scientists, and competitive programmers can:
+- Master fundamental algorithms and data structures through hands-on coding challenges
 - Learn from curated research papers across Machine Learning, Biology, Chemistry, and Electrical Engineering
-- Build foundational skills through structured learning tracks
-- Compete on a global leaderboard
-- Track progress with detailed analytics
+- Solve real-world problems with guided learning tracks (College, GATE, Placement, Vibe)
+- Compete on global leaderboards and track progress with detailed analytics
+- Build a strong foundation through structured problem-solving exercises
+- Earn points, badges, and climb the ranking system
 
 The platform combines a sophisticated browser-based code editor, sandboxed Python execution environment, and a rich educational content library to create an unparalleled hands-on learning experience.
 
@@ -175,7 +176,7 @@ Works seamlessly across all devices:
 
 ## 🛠️ Technology Stack
 
-PaperLabs is built with a modern, high-performance, scalable technology stack designed for educational excellence:
+Axiom is built with a modern, high-performance, scalable technology stack designed for educational excellence:
 
 ### Frontend Architecture
 - **Framework**: [Next.js 16](https://nextjs.org/) with App Router for optimal server-side rendering and client-side interactivity
@@ -198,7 +199,7 @@ PaperLabs is built with a modern, high-performance, scalable technology stack de
 - **Database**: [MongoDB](https://www.mongodb.com/) (Atlas for cloud, local for development)
 - **ORM**: [Mongoose](https://mongoosejs.com/) for elegant MongoDB object modeling
 - **Data Models**: 
-  - User schema with authentication metadata
+  - User schema with authentication metadata and referral tracking
   - Progress tracking schema for each domain
   - Submission history with code snapshots
   - Leaderboard aggregation collection
@@ -228,7 +229,7 @@ PaperLabs is built with a modern, high-performance, scalable technology stack de
 ## 📂 Project Structure
 
 ```
-pullgame/
+axiom/
 ├── src/
 │   ├── app/                           # Next.js App Router - Pages and Layouts
 │   │   ├── api/                       # Backend API routes
@@ -245,9 +246,10 @@ pullgame/
 │   │   ├── auth/                      # Auth-related pages
 │   │   │   ├── login/                 # Login page
 │   │   │   └── signup/                # Signup page
-│   │   ├── fundamentals/              # Fundamentals learning tracks
-│   │   │   ├── [subject]/[slug]/      # Dynamic fundamentals pages
-│   │   │   └── problems/[taskSlug]/   # Fundamental problem pages
+│   │   ├── college/                   # College track
+│   │   ├── gate/                      # GATE exam track
+│   │   ├── placement/                 # Placement track
+│   │   ├── vibe/                      # Vibe Lab track
 │   │   ├── leaderboard/               # Global leaderboard page
 │   │   ├── referrals/                 # Referral program page
 │   │   ├── papers/                    # Papers module
@@ -268,8 +270,6 @@ pullgame/
 │   │   ├── AuthProvider.tsx           # Authentication context provider
 │   │   ├── CodingTerminal.tsx         # Core Monaco + Pyodide environment
 │   │   ├── Footer.tsx                 # Footer component
-│   │   ├── FundamentalsModal.tsx      # Fundamentals content modal
-│   │   ├── MatrixBackground.tsx       # Animated matrix background
 │   │   ├── Navbar.tsx                 # Navigation bar with auth state
 │   │   ├── OpenPaperReader.tsx        # Paper reader UI wrapper
 │   │   ├── PapersBrowser.tsx          # Papers grid with filtering
@@ -277,44 +277,45 @@ pullgame/
 │   │   ├── ResearchSection.tsx        # Research content section
 │   │   ├── SolveSection.tsx           # Problem-solving interface
 │   │   ├── Toast.tsx                  # Toast notifications
-│   │   └── TracksSection.tsx          # Tracks/domains overview
+│   │   ├── TracksSection.tsx          # Tracks/domains overview
+│   │   └── [track-specific]/          # College, GATE, Placement, Vibe components
 │   │
 │   ├── data/                          # Static content and specifications
 │   │   ├── bioPapers.ts               # Biology & Chemistry papers data
 │   │   ├── domainPapers.ts            # Electrical engineering papers
-│   │   ├── fundamentals.ts            # Fundamentals track metadata
-│   │   ├── fundamentals-ml150.ts      # ML150 challenges (150 problems)
-│   │   ├── fundamentals-numpy.ts      # NumPy fundamentals (50+ exercises)
-│   │   ├── fundamentals-pandas.ts     # Pandas fundamentals (60+ exercises)
-│   │   ├── fundamentals-pandas-extra.ts # Advanced Pandas (128 exercises)
 │   │   ├── papers.ts                  # Core ML papers with tasks
 │   │   ├── problems.ts                # Problem specifications
-│   │   ├── reviews.ts                 # Code review examples
-│   │   └── users.ts                   # Sample user data
+│   │   └── [track-data]/              # College, GATE, Placement, Vibe data
 │   │
 │   ├── lib/                           # Utility functions and helpers
 │   │   ├── mongodb.ts                 # MongoDB connection handler
+│   │   ├── auth.ts                    # Authentication utilities
 │   │   ├── usePyodide.ts              # Pyodide React hook
+│   │   ├── supabase/                  # Supabase client utilities
 │   │   └── [other utilities]          # Additional helpers
 │   │
 │   └── models/                        # Mongoose schemas
 │       └── User.ts                    # User database schema
 │
 ├── public/                            # Static assets
+│   └── data/                          # Public data resources
+│
+├── scripts/                           # Build and data processing scripts
 ├── node_modules/                      # npm dependencies
 ├── .env.local                         # Environment variables (not in git)
 ├── next.config.ts                     # Next.js configuration
 ├── tsconfig.json                      # TypeScript configuration
 ├── package.json                       # Project metadata and dependencies
 ├── package-lock.json                  # Dependency lock file
-└── eslint.config.mjs                  # ESLint configuration
+├── eslint.config.mjs                  # ESLint configuration
+└── README.md                          # This file
 ```
 
 ---
 
 ## 🎨 Design Philosophy & Aesthetics
 
-PaperLabs adheres to a **minimalist, brutalist-inspired design** philosophy emphasizing:
+Axiom adheres to a **minimalist, brutalist-inspired design** philosophy emphasizing:
 
 **Visual Design:**
 - Monochromatic grayscale base (pure blacks, whites, grays)
@@ -357,8 +358,8 @@ PaperLabs adheres to a **minimalist, brutalist-inspired design** philosophy emph
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Srinidhi0604/pullgame.git
-cd pullgame
+git clone https://github.com/Srinidhi0604/axiom.git
+cd axiom
 ```
 
 ### 2. Install Dependencies
@@ -372,9 +373,9 @@ Create a `.env.local` file in the project root with your configuration:
 
 ```env
 # MongoDB Connection
-# For local MongoDB: mongodb://localhost:27017/paperlabs
-# For MongoDB Atlas: mongodb+srv://<username>:<password>@<cluster>.mongodb.net/paperlabs
-MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/paperlabs
+# For local MongoDB: mongodb://localhost:27017/axiom
+# For MongoDB Atlas: mongodb+srv://<username>:<password>@<cluster>.mongodb.net/axiom
+MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/axiom
 
 # JWT Secret - Generate a strong random string (minimum 32 characters)
 JWT_SECRET=your_super_secret_jwt_key_with_minimum_32_characters_for_security
@@ -417,8 +418,9 @@ The application will start on [http://localhost:3000](http://localhost:3000).
 Open your browser and you'll see:
 - Home page with project overview
 - Papers browser showing available ML research papers
-- Fundamentals and tracks sections (if logged in)
+- College, GATE, Placement, and Vibe tracks
 - Login/signup for new users
+- Leaderboard and referral pages
 
 ### 6. Build for Production
 ```bash
@@ -502,13 +504,13 @@ npx tsc --noEmit
 3. Write comprehensive test cases
 4. Add visual representations in `src/data/bioPapers.ts` or `src/data/domainPapers.ts`
 
-### Customizing Fundamentals
-1. Create data file in `src/data/fundamentals-*.ts`
-2. Define problem structure matching `FundamentalProblem` interface
-3. Register in `src/data/fundamentals.ts`
-4. Add route handler in `src/app/fundamentals/`
+### Adding Track Content
+1. Create data file in `src/data/[track-name].ts`
+2. Define problem structures and metadata
+3. Register routes in `src/app/[track-name]/`
+4. Add components in `src/components/[track-name]/`
 
-### Styling Customization
+### Customizing Styling
 - Global styles: `src/app/globals.css`
 - Component-specific styles: Inline or CSS modules in component files
 - Color theme: Modify color constants in CSS
@@ -574,10 +576,11 @@ npm run build
 - [Monaco Editor API](https://microsoft.github.io/monaco-editor/)
 
 ### For Users
-- Each paper has detailed problem descriptions
-- Fundamentals tracks include step-by-step tutorials
+- Each track has structured learning paths
+- Problems include detailed descriptions and hints
 - Code examples provided in problem skeletons
-- Discussion forums per problem (coming soon)
+- Referral system for community building
+- Leaderboards for motivation and tracking
 
 ---
 
@@ -593,7 +596,7 @@ We welcome contributions from the community! Here are ways you can contribute:
   - Screenshots if applicable
 
 ### Add Papers & Problems
-- Follow the structure in `src/data/papers.ts`
+- Follow the structure in `src/data/papers.ts` or track-specific data files
 - Include:
   - Comprehensive problem description
   - Working solution with explanations
@@ -615,24 +618,61 @@ We welcome contributions from the community! Here are ways you can contribute:
 
 ---
 
-## 📋 Roadmap
+## 🎯 Learning Tracks Overview
+
+Axiom offers four comprehensive learning tracks tailored to different goals:
+
+### 📚 **College Track**
+- University curriculum aligned content
+- Data Structures & Algorithms fundamentals
+- Core Computer Science concepts
+- Interview preparation materials
+- Academic problem sets aligned with syllabus
+
+### 🏆 **GATE Track**
+- Comprehensive GATE examination preparation
+- Subject-wise organized problems
+- Full-length mock tests
+- Performance analytics and weak area identification
+- Previous year question papers with solutions
+
+### 💼 **Placement Track**
+- Interview-focused problem solving
+- Company-specific coding challenges
+- System design fundamentals
+- Behavioral interview preparation
+- Real-world problem scenarios
+
+### 🎨 **Vibe Lab**
+- Creative problem-solving challenges
+- Experimental coding puzzles
+- Community-driven problem sets
+- Innovation and exploration focused
+- Cutting-edge algorithmic concepts
+
+---
+
+## 🎯 Roadmap
 
 ### Upcoming Features
-- **Discussion Forums**: Community discussions per paper and problem
-- **Code Review System**: Peer code reviews with feedback
+- **Discussion Forums**: Community discussions per problem and track
+- **Advanced Analytics**: In-depth performance analytics and recommendations
 - **AI-Powered Hints**: ML-based hint generation for stuck users
 - **Mobile App**: Native iOS/Android applications
 - **Video Explanations**: Video tutorials for complex concepts
 - **Collaborative Coding**: Real-time collaborative problem solving
-- **API Documentation**: Auto-generated API docs
-- **Custom Tracks**: Create and share custom learning paths
+- **Code Review System**: Peer code reviews with feedback
+- **Mock Interview Platform**: Live mock interview with mentors
 
-### Future Domains
-- Quantum Computing
-- Reinforcement Learning specialized track
-- Advanced Algorithms and Data Structures
-- Distributed Systems
-- Cybersecurity
+### Future Domains & Tracks
+- Web Development track
+- DevOps & Cloud Engineering track
+- System Design Advanced track
+- Competitive Programming track
+- Quantum Computing fundamentals
+- Advanced Distributed Systems
+- Cybersecurity & Ethical Hacking
+- Blockchain & Smart Contracts
 
 ---
 
@@ -657,8 +697,8 @@ We welcome contributions from the community! Here are ways you can contribute:
 
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: General questions and ideas
-- **Email**: support@paperlabs.dev (future)
-- **Twitter**: [@PaperLabsHQ](https://twitter.com) (future)
+- **Email**: support@axiom.dev (future)
+- **Twitter**: [@AxiomHQ](https://twitter.com) (future)
 - **Discord Community**: Join our server for live discussions (future)
 
 ---
@@ -686,7 +726,7 @@ For more details, see the LICENSE file in the repository.
 
 ## ⭐ Show Your Support
 
-If you find PaperLabs helpful, please:
+If you find Axiom helpful, please:
 - Star the repository on GitHub ⭐
 - Share it with peers and colleagues
 - Contribute improvements and new content
@@ -694,6 +734,8 @@ If you find PaperLabs helpful, please:
 
 ---
 
-**Happy Learning & Coding! 🚀**
+**Made with ❤️ for learners worldwide**
+
+Axiom - Master Computer Science, One Problem at a Time 🚀
 
 <!-- Minor docs update -->
