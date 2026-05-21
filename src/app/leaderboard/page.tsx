@@ -30,7 +30,9 @@ export default function LeaderboardPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("/api/users");
+        const res = await fetch("/api/users", {
+          credentials: "include",
+        });
         const data = await res.json();
         if (data.success) {
           setUsers(data.users);

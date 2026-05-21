@@ -103,7 +103,9 @@ export function Heatmap({ streamId }: { streamId?: string }) {
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await fetch(`/api/gate/heatmap?stream=${streamId || "cs"}`);
+        const res = await fetch(`/api/gate/heatmap?stream=${streamId || "cs"}`, {
+          credentials: "include",
+        });
         if (res.ok) {
           const json = await res.json();
           if (json.months) {

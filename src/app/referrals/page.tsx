@@ -47,7 +47,9 @@ export default function ReferralsPage() {
         setLoading(true);
 
         // Fetch leaderboard
-        const leaderboardRes = await fetch("/api/referrals/leaderboard?limit=100");
+        const leaderboardRes = await fetch("/api/referrals/leaderboard?limit=100", {
+          credentials: "include",
+        });
         const leaderboardData = await leaderboardRes.json();
 
         if (leaderboardData.success) {
@@ -63,7 +65,9 @@ export default function ReferralsPage() {
         }
 
         // Fetch user's referral stats
-        const statsRes = await fetch("/api/referrals/stats");
+        const statsRes = await fetch("/api/referrals/stats", {
+          credentials: "include",
+        });
         const statsData = await statsRes.json();
 
         if (statsData.success) {
