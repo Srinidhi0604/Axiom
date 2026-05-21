@@ -33,6 +33,7 @@ interface ReferralStats {
 export default function ReferralsPage() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
   const [leaderboard, setLeaderboard] = useState<LeaderboardUser[]>([]);
   const [stats, setStats] = useState<ReferralStats | null>(null);
   const [referredUsers, setReferredUsers] = useState<ReferredUser[]>([]);
@@ -97,6 +98,40 @@ export default function ReferralsPage() {
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       showToast("Failed to copy link", "error");
+    }
+  };
+
+  const generateReferralCode = async () => {
+    try {
+      setGenerating(true);
+      const response = await fetch("/api/migrate/referral-codes", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        showToast("Failed to generate referral code", "error");
+        return;
+      }
+
+      const data = await response.json();
+      showToast("Referral ID generated successfully!", "success");
+
+      // Refresh stats to get the new code
+      const statsRes = await fetch("/api/referrals/stats", {
+        credentials: "include",
+      });
+      const statsData = await statsRes.json();
+
+      if (statsData.success) {
+        setStats(statsData.referralStats);
+        setReferredUsers(statsData.referredUsers);
+      }
+    } catch (error) {
+      console.error("Failed to generate referral code:", error);
+      showToast("Error generating referral code", "error");
+    } finally {
+      setGenerating(false);
     }
   };
 
@@ -229,60 +264,103 @@ export default function ReferralsPage() {
             </div>
           </div>
 
-          {/* Invite Section */}
-          <div
-            style={{
-              padding: 16,
-              background: "rgba(34, 197, 94, 0.1)",
-              border: "1px solid rgba(34, 197, 94, 0.2)",
-              borderRadius: 12,
-            }}
-          >
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginBottom: 8 }}>
-                Your Referral ID
-              </div>
-              <code
+          {stats && !stats.referralCode ? (
+            /* Generate ID Section */
+            <div
+              style={{
+                padding: 24,
+                background: "rgba(168, 85, 247, 0.1)",
+                border: "1px solid rgba(168, 85, 247, 0.3)",
+                borderRadius: 12,
+                textAlign: "center",
+              }}
+            >
+              <h3
                 style={{
-                  display: "block",
-                  padding: 12,
-                  background: "rgba(0,0,0,0.3)",
-                  borderRadius: 8,
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: 700,
-                  color: "var(--accent-cyan)",
                   marginBottom: 12,
-                  wordBreak: "break-all",
-                  letterSpacing: "0.05em",
+                  color: "var(--text-primary)",
                 }}
               >
-                {stats.referralCode}
-              </code>
+                Generate Your Referral ID
+              </h3>
+              <p style={{ fontSize: 14, color: "var(--text-secondary)", marginBottom: 20 }}>
+                Create a unique referral ID to start inviting friends and earning bonus points
+              </p>
+              <button
+                onClick={generateReferralCode}
+                disabled={generating}
+                style={{
+                  padding: "12px 28px",
+                  background: "var(--accent-purple)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: generating ? "not-allowed" : "pointer",
+                  opacity: generating ? 0.6 : 1,
+                }}
+              >
+                {generating ? "Generating..." : "Generate Referral ID"}
+              </button>
             </div>
-
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginBottom: 8 }}>
-                Invite Link
-              </div>
-              <div style={{ display: "flex", gap: 12 }}>
-                <input
-                  type="text"
-                  readOnly
-                  value={`${typeof window !== "undefined" ? window.location.origin : ""}/auth/signup?ref=${stats.referralCode}`}
+          ) : (
+            /* Invite Section */
+            <div
+              style={{
+                padding: 16,
+                background: "rgba(34, 197, 94, 0.1)",
+                border: "1px solid rgba(34, 197, 94, 0.2)",
+                borderRadius: 12,
+              }}
+            >
+              <div style={{ marginBottom: 12 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginBottom: 8 }}>
+                  Your Referral ID
+                </div>
+                <code
                   style={{
-                    flex: 1,
-                    padding: "10px 12px",
+                    display: "block",
+                    padding: 12,
                     background: "rgba(0,0,0,0.3)",
-                    border: "1px solid rgba(255,255,255,0.1)",
                     borderRadius: 8,
-                    fontSize: 12,
-                    color: "var(--text-secondary)",
+                    fontSize: 16,
+                    fontWeight: 700,
+                    color: "var(--accent-cyan)",
+                    marginBottom: 12,
+                    wordBreak: "break-all",
+                    letterSpacing: "0.05em",
                   }}
-                />
-                <button
-                  onClick={copyToClipboard}
-                  className="btn-primary"
-                  style={{
+                >
+                  {stats?.referralCode}
+                </code>
+              </div>
+
+              <div style={{ marginBottom: 12 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", marginBottom: 8 }}>
+                  Invite Link
+                </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <input
+                    type="text"
+                    readOnly
+                    value={`${typeof window !== "undefined" ? window.location.origin : ""}/auth/signup?ref=${stats?.referralCode}`}
+                    style={{
+                      flex: 1,
+                      padding: "10px 12px",
+                      background: "rgba(0,0,0,0.3)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      borderRadius: 8,
+                      fontSize: 12,
+                      color: "var(--text-secondary)",
+                    }}
+                  />
+                  <button
+                    onClick={copyToClipboard}
+                    className="btn-primary"
+                    style={{
                     padding: "10px 20px",
                     fontSize: 12,
                     fontWeight: 600,
@@ -294,7 +372,8 @@ export default function ReferralsPage() {
                 </button>
               </div>
             </div>
-          </div>
+            </div>
+          )}
         </div>
       )}
 
