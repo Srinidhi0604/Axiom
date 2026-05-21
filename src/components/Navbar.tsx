@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/placement", label: "PlacePrep" },
   { href: "/vibe", label: "Vibe Lab" },
   { href: "/leaderboard", label: "Leaderboard" },
+  { href: "/referrals", label: "Referrals" },
 ];
 
 export function Navbar() {
