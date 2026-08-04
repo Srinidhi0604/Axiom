@@ -172,23 +172,6 @@ export function Navbar() {
                 </div>
               ) : null}
             </div>
-          ) : !isLoading ? (
-            <>
-              <Link
-                href="/auth/login"
-                className="btn-secondary"
-                style={{ textDecoration: "none", padding: "8px 20px", fontSize: 13 }}
-              >
-                Log in
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="btn-primary"
-                style={{ textDecoration: "none", fontSize: 13 }}
-              >
-                Sign up
-              </Link>
-            </>
           ) : null}
 
           <button
